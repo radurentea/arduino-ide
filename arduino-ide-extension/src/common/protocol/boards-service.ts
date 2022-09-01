@@ -4,7 +4,11 @@ import { Installable } from './installable';
 import { ArduinoComponent } from './arduino-component';
 import { nls } from '@theia/core/lib/common/nls';
 import { All, Contributed, Partner, Type, Updatable } from '../nls';
+import stableJsonStringify = require('fast-json-stable-stringify');
 
+/**
+ * Keys come from `Port#keyOf`.
+ */
 export type AvailablePorts = Record<string, [Port, Array<Board>]>;
 export namespace AvailablePorts {
   export function groupByProtocol(
@@ -36,6 +40,11 @@ export namespace AvailablePorts {
       boards: attachedBoards,
       ports: availablePorts,
     };
+  }
+  export function sameAs(left: AvailablePorts, right: AvailablePorts): boolean {
+    return (
+      left === right || stableJsonStringify(left) === stableJsonStringify(right)
+    );
   }
 }
 
