@@ -1,17 +1,14 @@
-import { nls } from '@theia/core/lib/common/nls';
 import { LocalStorageService } from '@theia/core/lib/browser/storage-service';
 import { inject, injectable } from '@theia/core/shared/inversify';
-import {
-  IDEUpdater,
-  SKIP_IDE_VERSION,
-} from '../../common/protocol/ide-updater';
+import { SKIP_IDE_VERSION } from '../../common/protocol/ide-updater';
 import { IDEUpdaterDialog } from '../dialogs/ide-updater/ide-updater-dialog';
 import { Contribution } from './contribution';
+import { IDEUpdaterService } from '../ide-updater/ide-updater-service';
 
 @injectable()
 export class CheckForIDEUpdates extends Contribution {
-  @inject(IDEUpdater)
-  private readonly updater: IDEUpdater;
+  @inject(IDEUpdaterService)
+  private readonly updater: IDEUpdaterService;
 
   @inject(IDEUpdaterDialog)
   private readonly updaterDialog: IDEUpdaterDialog;
@@ -19,51 +16,18 @@ export class CheckForIDEUpdates extends Contribution {
   @inject(LocalStorageService)
   private readonly localStorage: LocalStorageService;
 
-  override onStart(): void {
-    this.preferences.onPreferenceChanged(
-      ({ preferenceName, newValue, oldValue }) => {
-        if (newValue !== oldValue) {
-          switch (preferenceName) {
-            case 'arduino.ide.updateChannel':
-            case 'arduino.ide.updateBaseUrl':
-              this.updater.init(
-                this.preferences.get('arduino.ide.updateChannel'),
-                this.preferences.get('arduino.ide.updateBaseUrl')
-              );
-          }
-        }
-      }
-    );
-  }
-
   override onReady(): void {
-    this.updater
-      .init(
-        this.preferences.get('arduino.ide.updateChannel'),
-        this.preferences.get('arduino.ide.updateBaseUrl')
-      )
-      .then(() => {
-        if (!this.preferences['arduino.checkForUpdates']) {
-          return;
-        }
-        return this.updater.checkForUpdates(true);
-      })
-      .then(async (updateInfo) => {
-        if (!updateInfo) return;
-        const versionToSkip = await this.localStorage.getData<string>(
-          SKIP_IDE_VERSION
-        );
-        if (versionToSkip === updateInfo.version) return;
-        this.updaterDialog.open(updateInfo);
-      })
-      .catch((e) => {
-        this.messageService.error(
-          nls.localize(
-            'arduino/ide-updater/errorCheckingForUpdates',
-            'Error while checking for Arduino IDE updates.\n{0}',
-            e.message
-          )
-        );
-      });
+    const checkForUpdates = this.preferences['arduino.checkForUpdates'];
+    if (!checkForUpdates) {
+      return;
+    }
+    this.updater.checkForUpdates(true).then(async (updateInfo) => {
+      if (!updateInfo) return;
+      const versionToSkip = await this.localStorage.getData<string>(
+        SKIP_IDE_VERSION
+      );
+      if (versionToSkip === updateInfo.version) return;
+      this.updaterDialog.open(updateInfo);
+    });
   }
 }

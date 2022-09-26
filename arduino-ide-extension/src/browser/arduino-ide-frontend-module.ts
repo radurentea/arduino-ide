@@ -261,7 +261,7 @@ import {
   UserFieldsDialogWidget,
 } from './dialogs/user-fields/user-fields-dialog';
 import { nls } from '@theia/core/lib/common';
-import { IDEUpdaterCommands } from './ide-updater/ide-updater-commands';
+import { IDEUpdaterService } from './ide-updater/ide-updater-service';
 import {
   IDEUpdater,
   IDEUpdaterClient,
@@ -962,8 +962,8 @@ export default new ContainerModule((bind, unbind, isBound, rebind) => {
     title: 'UserFields',
   });
 
-  bind(IDEUpdaterCommands).toSelf().inSingletonScope();
-  bind(CommandContribution).toService(IDEUpdaterCommands);
+  bind(IDEUpdaterService).toSelf().inSingletonScope();
+  bind(CommandContribution).toService(IDEUpdaterService);
 
   // Frontend binding for the IDE Updater service
   bind(IDEUpdaterClientImpl).toSelf().inSingletonScope();

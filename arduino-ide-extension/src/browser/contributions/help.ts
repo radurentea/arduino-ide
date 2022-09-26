@@ -13,7 +13,7 @@ import {
   KeybindingRegistry,
 } from './contribution';
 import { nls } from '@theia/core/lib/common';
-import { IDEUpdaterCommands } from '../ide-updater/ide-updater-commands';
+import { IDEUpdaterService } from '../ide-updater/ide-updater-service';
 import { ElectronCommands } from '@theia/core/lib/electron-browser/menu/electron-menu-contribution';
 import * as monaco from '@theia/monaco-editor-core';
 
@@ -133,7 +133,7 @@ export class Help extends Contribution {
       order: '7',
     });
     registry.registerMenuAction(ArduinoMenus.HELP__FIND_GROUP, {
-      commandId: IDEUpdaterCommands.CHECK_FOR_UPDATES.id,
+      commandId: IDEUpdaterService.CHECK_FOR_UPDATES.id,
       order: '8',
     });
   }
