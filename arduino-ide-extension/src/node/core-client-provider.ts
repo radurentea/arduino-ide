@@ -43,6 +43,7 @@ import {
 } from './grpc-progressible';
 import type { DefaultCliConfig } from './cli-config';
 import { ServiceError } from './service-error';
+import { nls } from '@theia/core';
 
 @injectable()
 export class CoreClientProvider {
@@ -77,7 +78,10 @@ export class CoreClientProvider {
     this.daemon.onDaemonStarted((port) => this.create(port));
     this.daemon.onDaemonStopped(() => this.closeClient());
     this.configService.onConfigChange(
-      () => this.client.then((client) => this.updateIndex(client, ['platform'])) // Assuming 3rd party URL changes. No library index update is required.
+      () =>
+        this.client.then((client) =>
+          this.updateIndex(client, ['platform'], true)
+        ) // Assuming 3rd party URL changes. No library index update is required.
     );
   }
 
@@ -270,7 +274,8 @@ export class CoreClientProvider {
    */
   async updateIndex(
     client: CoreClientProvider.Client,
-    types: IndexType[]
+    types: IndexType[],
+    isUserTriggered = false
   ): Promise<void> {
     let error: unknown | undefined = undefined;
     const progressHandler = this.createProgressHandler(types);
@@ -297,8 +302,28 @@ export class CoreClientProvider {
         // notify clients about the index update only after the client has been "re-initialized" and the new content is available.
         progressHandler.reportEnd();
       }
+
       if (error) {
         console.error(`Failed to update ${types.join(', ')} indexes.`, error);
+        const stringifiedError = ServiceError.is(error)
+          ? error.message
+          : String(error);
+        const isNetworkError =
+          stringifiedError.includes('Error downloading index') &&
+          stringifiedError.includes(
+            'dial tcp: lookup downloads.arduino.cc: no such host'
+          );
+        if (isNetworkError) {
+          if (!isUserTriggered) {
+            return;
+          }
+          error = Error(
+            nls.localize(
+              'arduino/updateIndexes/errorNoInternet',
+              'You appear to be offline. Without an Internet connection, the Arduino IDE is not able to download indexes.'
+            )
+          );
+        }
         const downloadErrors = progressHandler.results
           .filter(DownloadResult.isError)
           .map(({ url, message }) => `${message}: ${url}`)
@@ -450,9 +475,15 @@ export abstract class CoreClientAware {
   /**
    * Updates the index of the given `type` and returns with a promise which resolves when the core gPRC client has been reinitialized.
    */
-  async updateIndex({ types }: { types: IndexType[] }): Promise<void> {
+  async updateIndex({
+    types,
+    isUserTriggered = false,
+  }: {
+    types: IndexType[];
+    isUserTriggered?: boolean;
+  }): Promise<void> {
     const client = await this.coreClient;
-    return this.coreClientProvider.updateIndex(client, types);
+    return this.coreClientProvider.updateIndex(client, types, isUserTriggered);
   }
 
   async indexUpdateSummaryBeforeInit(): Promise<IndexUpdateSummary> {

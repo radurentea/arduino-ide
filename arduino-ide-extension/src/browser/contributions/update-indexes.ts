@@ -94,7 +94,10 @@ export class UpdateIndexes extends Contribution {
             typesToUpdate
           )} with date time: ${updatedAt}.`
         );
-        return this.coreService.updateIndex({ types: typesToUpdate });
+        return this.coreService.updateIndex({
+          types: typesToUpdate,
+          isUserTriggered: force,
+        });
       }
     });
   }

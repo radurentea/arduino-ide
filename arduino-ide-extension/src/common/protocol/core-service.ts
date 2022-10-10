@@ -117,7 +117,13 @@ export interface CoreService {
    * Updates the index of the given index types and refreshes (`init`) the underlying core gRPC client.
    * If `types` is empty, only the refresh part will be executed.
    */
-  updateIndex({ types }: { types: IndexType[] }): Promise<void>;
+  updateIndex({
+    types,
+    isUserTriggered,
+  }: {
+    types: IndexType[];
+    isUserTriggered?: boolean;
+  }): Promise<void>;
   /**
    * If the IDE2 detects invalid or missing indexes on core client init,
    * IDE2 tries to update the indexes before the first frontend connects.
