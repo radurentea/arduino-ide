@@ -137,7 +137,7 @@
       "processing": "Procesando",
       "recommended": "Recomendado",
       "retired": "Retirado",
-      "selectedOn": "on  1{0}\n ",
+      "selectedOn": "en {0}",
       "serialMonitor": "Monitor Serie",
       "type": "Tipo",
       "unknown": "Desconocido",
@@ -208,7 +208,7 @@
       "unsavedChanges": "Los cambios no guardados no serán guardados."
     },
     "examples": {
-      "builtInExamples": "Ejemplos Construidos ",
+      "builtInExamples": "Ejemplos Construidos",
       "couldNotInitializeExamples": "No se han podido inicializar los ejemplos integrados.",
       "customLibrary": "Ejemplos de bibliotecas personalizadas",
       "for": "Ejemplos para {0}",
@@ -253,7 +253,7 @@
       "notNowButton": "Ahora no",
       "skipVersionButton": "Omitir versión",
       "updateAvailable": "Actualización disponible",
-      "versionDownloaded": "Arduino IDE 1{0} se ha descargado."
+      "versionDownloaded": "Arduino IDE {0} se ha descargado."
     },
     "library": {
       "addZip": "Añadir biblioteca .ZIP...",
@@ -301,8 +301,8 @@
       "tools": "Herramientas"
     },
     "monitor": {
-      "unableToCloseWebSocket": " No se puede cerrar websocket",
-      "unableToConnectToWebSocket": " No se puede conectar al websocket"
+      "unableToCloseWebSocket": "No se puede cerrar websocket",
+      "unableToConnectToWebSocket": "No se puede conectar al websocket"
     },
     "newCloudSketch": {
       "invalidSketchName": "The name must consist of basic letters, numbers, or underscores. The maximum length is 36 characters.",
@@ -435,7 +435,7 @@
       "updatePackageIndex": "Actualizar índice de paquete"
     },
     "upload": {
-      "error": "1{0} error: 2{1}"
+      "error": "{0} error: {1}"
     },
     "userFields": {
       "cancel": "Cancelar",

@@ -154,7 +154,7 @@
       "installed": "Installed",
       "moreInfo": "Дополнительная информация",
       "uninstall": "Удалить",
-      "uninstallMsg": "Вы хотите удалить  {0}?",
+      "uninstallMsg": "Вы хотите удалить {0}?",
       "version": "Версия {0}"
     },
     "contributions": {

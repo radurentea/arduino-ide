@@ -15,7 +15,7 @@
       "disconnected": "연결해제됨",
       "getBoardInfo": "보드정보 얻기",
       "inSketchbook": "(스케치북에서)",
-      "installNow": "\"1{0} 2{1}\"버전은 최근에 선택된 \"{2}\"보드를 설치해야 합니다. 지금 설치하시겠습니까?",
+      "installNow": "\"{0} {1}\"버전은 최근에 선택된 \"{2}\"보드를 설치해야 합니다. 지금 설치하시겠습니까?",
       "noBoardsFound": "\"{0}\"에 대한 보드를 찾을 수 없습니다.",
       "noFQBN": "The FQBN is not available for the selected board \"{0}\". Do you have the corresponding core installed?",
       "noPortsDiscovered": "포트를 찾을 수 없습니다.",
@@ -268,7 +268,7 @@
       "installedSuccessfully": "성공적으로 설치된 라이브러리 {0}:{1}",
       "libraryAlreadyExists": "라이브러리가 이미 존재합니다. 덮어 쓰시겠습니까? ",
       "manageLibraries": "라이브러리 관리...",
-      "namedLibraryAlreadyExists": " {0} 이라는 라이브러리 폴더이름이 이미 존재합니다. 덮어 쓰시겠습니까?",
+      "namedLibraryAlreadyExists": "{0} 이라는 라이브러리 폴더이름이 이미 존재합니다. 덮어 쓰시겠습니까?",
       "needsMultipleDependencies": "라이브러리 <b>{0}:{1}</b> 는 현재 설치되지 않은 다른 종속성이 필요합니다.",
       "needsOneDependency": "The library <b>{0}:{1}</b> needs another dependency currently not installed:",
       "overwriteExistingLibrary": "기존 라이브러리를 덮어쓰시겠습니까?",
@@ -453,7 +453,7 @@
       "quitTitle": "정말 종료하시겠습니까?"
     },
     "editor": {
-      "unsavedTitle": "저장되지않음 – 1{0}\n "
+      "unsavedTitle": "저장되지않음 – {0}"
     },
     "messages": {
       "collapse": "Collapse",

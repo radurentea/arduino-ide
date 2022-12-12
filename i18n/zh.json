@@ -120,9 +120,9 @@
       "visitArduinoCloud": "访问 Arduino Cloud 以创建云项目。"
     },
     "cloudSketch": {
-      "creating": "Creating remote sketch '{0}'...",
-      "new": "New Remote Sketch",
-      "synchronizing": "Synchronizing sketchbook, pulling '{0}'..."
+      "creating": "正在创建远程项目“{0}”...",
+      "new": "新建远程项目",
+      "synchronizing": "正在同步远程项目文件夹，拉取“{0}”中..."
     },
     "common": {
       "all": "全部",
@@ -293,7 +293,7 @@
       "uncategorized": "未分类"
     },
     "libraryType": {
-      "installed": "安装"
+      "installed": "已安装"
     },
     "menu": {
       "advanced": "高级设置",
@@ -305,10 +305,10 @@
       "unableToConnectToWebSocket": "无法连接 websocket"
     },
     "newCloudSketch": {
-      "invalidSketchName": "The name must consist of basic letters, numbers, or underscores. The maximum length is 36 characters.",
-      "newSketchTitle": "Name of a new Remote Sketch",
-      "notFound": "Could not pull the remote sketch '{0}'. It does not exist.",
-      "sketchAlreadyExists": "Remote sketch '{0}' already exists."
+      "invalidSketchName": "名称必须由字母、数字或下划线组成。最大长度为 36 个字符。",
+      "newSketchTitle": "新远程项目的名称",
+      "notFound": "无法拉取远程项目 “{0}”。此项目不存在。",
+      "sketchAlreadyExists": "远程项目 “{0}” 已经存在。"
     },
     "portProtocol": {
       "network": "网络",
@@ -323,11 +323,11 @@
       "automatic": " 自动调整",
       "board.certificates": "可上传到开发板的证书列表",
       "browse": "浏览",
-      "checkForUpdate": "接收 IDE、开发板和库的可用更新通知。更改后需要重启IDE。默认情况为开启。",
+      "checkForUpdate": "接收 IDE、开发板和库的可用更新通知。更改后需要重启 IDE。默认情况为开启。",
       "choose": "选择",
       "cli.daemonDebug": "启用对 Arduino CLI 的 gRPC 调用的调试记录。该设置需要重新启动 IDE 才能生效。默认不启用。",
       "cloud.enabled": "True 则启用项目同步功能。默认为 True。",
-      "cloud.pull.warn": "True 则在拉取cloud项目之前警告用户。默认为 True。",
+      "cloud.pull.warn": "True 则在拉取 cloud 项目之前警告用户。默认为 True。",
       "cloud.push.warn": "True 则在推送 cloud 项目之前警告用户。默认为 True。",
       "cloud.pushpublic.warn": "True 则将公开项目推送到 cloud 中之前警告用户。默认为 True。",
       "cloud.sketchSyncEndpoint": "用于从后台推送项目的端点。默认情况下，它指向 Arduino Cloud API。",
@@ -372,7 +372,7 @@
       "verifyAfterUpload": "上传后验证代码",
       "window.autoScale": "True 则用户界面随字体大小自动缩放。",
       "window.zoomLevel": {
-        "deprecationMessage": "Deprecated. Use 'window.zoomLevel' instead."
+        "deprecationMessage": "已弃用。请改用“window.zoomLevel”。"
       }
     },
     "replaceMsg": "是否替换 {0} 的现有版本？",
@@ -401,7 +401,7 @@
       "exportBinary": "导出已编译的二进制文件",
       "moving": "移动",
       "movingMsg": "“{0}” 文件需要位于 “{1}” 项目文件夹中。\n创建此文件夹，移动文件，然后继续？",
-      "new": "New Sketch",
+      "new": "新建项目",
       "openFolder": "打开文件夹",
       "openRecent": "打开最近",
       "openSketchInNewWindow": "在新窗口打开项目",
@@ -421,8 +421,8 @@
       "verifyOrCompile": "验证/编译"
     },
     "sketchbook": {
-      "newRemoteSketch": "New Remote Sketch",
-      "newSketch": "New Sketch"
+      "newRemoteSketch": "新建远程项目",
+      "newSketch": "新建项目"
     },
     "survey": {
       "answerSurvey": "回答问卷",

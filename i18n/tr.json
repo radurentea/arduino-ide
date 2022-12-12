@@ -462,7 +462,7 @@
     "workspace": {
       "deleteCurrentSketch": "Mevcut eskizi silmek istiyor musunuz?",
       "fileNewName": "Yeni dosya için isim",
-      "invalidExtension": ".{0}  geçerli bir uzantı değil",
+      "invalidExtension": ".{0} geçerli bir uzantı değil",
       "invalidFilename": "Hatalı dosya adı.",
       "newFileName": "Dosya için yeni isim"
     }

@@ -1,11 +1,11 @@
 {
   "arduino": {
     "about": {
-      "detail": "版本：1{0}，日期：2{1}，命令列版本：{3}{4}[{5}]  {6}",
-      "label": "關於 1[0]"
+      "detail": "版本： {0}\n日期： {1}{2}\n命令列版本： {3}{4} [{5}]\n\n{6}",
+      "label": "關於 {0}"
     },
     "board": {
-      "board": "1{0} 開發板",
+      "board": "{0} 開發板",
       "boardConfigDialogTitle": "選擇其他開發板和埠",
       "boardInfo": "開發板資訊",
       "boards": "boards",
@@ -15,7 +15,7 @@
       "disconnected": "斷開連接",
       "getBoardInfo": "取得開發板資訊",
       "inSketchbook": "(在草稿資料夾中)",
-      "installNow": "必須為目前選定的 {2} 開發板安裝 1{0} 2{1} 核心程式，你要現在安裝嗎？",
+      "installNow": "必須為目前選定的 {2} 開發板安裝 {0} {1} 核心程式，你要現在安裝嗎？",
       "noBoardsFound": "未找到開發板 {0}",
       "noFQBN": "FQBN無法用於所選擇的\"{0}\"開發版。你是否安裝了對應的核心?",
       "noPortsDiscovered": "未找到埠",
@@ -24,7 +24,7 @@
       "openBoardsConfig": "選擇其他的電路板或埠...",
       "platformMissing": "選擇的'{0}'開發版平台並未安裝",
       "pleasePickBoard": "請選擇要連接的開發版",
-      "port": "1{0} 埠",
+      "port": "{0} 埠",
       "portLabel": "端口: {0}",
       "ports": "ports",
       "programmer": "燒錄器",
@@ -35,8 +35,8 @@
       "selectPortForInfo": "請選定一個埠，以便能取得板子的資訊",
       "showAllAvailablePorts": "當開啟時，顯示所有可用的埠",
       "showAllPorts": "Show all ports",
-      "succesfullyInstalledPlatform": "平台已成功安裝 1[0]：2[1]",
-      "succesfullyUninstalledPlatform": "平台已成功移除 1[0]：2[1]",
+      "succesfullyInstalledPlatform": "已成功卸载平台 {0}：{1}",
+      "succesfullyUninstalledPlatform": "平台已成功移除 {0}：{1}",
       "typeOfPorts": "{0} ports"
     },
     "boardsManager": "開發板管理器",
@@ -49,7 +49,7 @@
       "doneBurningBootloader": "Bootloader 燒錄完成"
     },
     "burnBootloader": {
-      "error": "燒錄 1{0} Bootloader 時出現錯誤"
+      "error": "燒錄 {0} Bootloader 時出現錯誤"
     },
     "certificate": {
       "addNew": "加入新的",
@@ -137,14 +137,14 @@
       "processing": "資料處理中",
       "recommended": "推薦",
       "retired": "不在支援",
-      "selectedOn": "在 1{0}",
+      "selectedOn": "在 {0}",
       "serialMonitor": "序列埠監控",
       "type": "類型",
       "unknown": "未知",
       "updateable": "可更新"
     },
     "compile": {
-      "error": "1{0} 編譯錯誤"
+      "error": "{0} 編譯錯誤"
     },
     "component": {
       "boardsIncluded": "包含在此包的開發版:",
@@ -154,8 +154,8 @@
       "installed": "安裝",
       "moreInfo": "更多資訊",
       "uninstall": "移除安裝",
-      "uninstallMsg": "你要移除 1{0}？",
-      "version": "版本 1{0}"
+      "uninstallMsg": "你要移除 {0}？",
+      "version": "版本 {0}"
     },
     "contributions": {
       "addFile": "加入檔案",
@@ -211,7 +211,7 @@
       "builtInExamples": "內建範例",
       "couldNotInitializeExamples": "無法初始內建的範例",
       "customLibrary": "客製函式庫的範例",
-      "for": "1 {0} 的範例",
+      "for": "{0} 的範例",
       "forAny": "適用各種開發板的範例",
       "menu": "範例"
     },
@@ -265,16 +265,16 @@
       "installMissingDependencies": "是否安裝所有缺少的附屬程式？",
       "installOneMissingDependency": "是否安裝缺少的附屬程式?",
       "installWithoutDependencies": "Install without dependencies",
-      "installedSuccessfully": "成功安裝 1{0}：2{1} 函式庫",
+      "installedSuccessfully": "成功安裝 {0}：{1} 函式庫",
       "libraryAlreadyExists": "函式庫已經存在，你要覆寫它嗎？",
       "manageLibraries": "管理函式庫",
-      "namedLibraryAlreadyExists": "函式庫的資料夾名稱 1{0} 已經存在，你要覆寫它嗎？",
+      "namedLibraryAlreadyExists": "函式庫的資料夾名稱 {0} 已經存在，你要覆寫它嗎？",
       "needsMultipleDependencies": "函式庫<b>{0}：{1}</b>需要一些未安装的附屬程式：",
       "needsOneDependency": "函式庫<b>{0}：{1}</b>需要一些未安装的附屬程式：",
       "overwriteExistingLibrary": "你要覆寫既有的函式庫嗎？",
-      "successfullyInstalledZipLibrary": "從 1{0} 歸檔成功安裝函式庫",
+      "successfullyInstalledZipLibrary": "從 {0} 歸檔成功安裝函式庫",
       "title": "函式庫管理器",
-      "uninstalledSuccessfully": "成功移除安裝的 1{0}：2{1} 函式庫",
+      "uninstalledSuccessfully": "成功移除安裝的 {0}：{1} 函式庫",
       "zipLibrary": "函式庫"
     },
     "librarySearchProperty": {
@@ -375,7 +375,7 @@
         "deprecationMessage": "Deprecated. Use 'window.zoomLevel' instead."
       }
     },
-    "replaceMsg": "取代 1{0} 的現有版本？",
+    "replaceMsg": "取代 {0} 的現有版本？",
     "selectZip": "選擇要加入函示庫的zip檔案",
     "serial": {
       "autoscroll": "自動滾頁面",
@@ -435,7 +435,7 @@
       "updatePackageIndex": "Update Package Index"
     },
     "upload": {
-      "error": "1 [0] 錯誤：2 [1]"
+      "error": "{0} 錯誤：{1}"
     },
     "userFields": {
       "cancel": "取消",
@@ -453,7 +453,7 @@
       "quitTitle": "你確定要退出嗎？"
     },
     "editor": {
-      "unsavedTitle": "1[0] –尚未儲存"
+      "unsavedTitle": "{0} – 尚未儲存"
     },
     "messages": {
       "collapse": "崩潰",

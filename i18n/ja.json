@@ -120,9 +120,9 @@
       "visitArduinoCloud": "Arduino Cloudにアクセスしてクラウドスケッチを作成する"
     },
     "cloudSketch": {
-      "creating": "Creating remote sketch '{0}'...",
-      "new": "New Remote Sketch",
-      "synchronizing": "Synchronizing sketchbook, pulling '{0}'..."
+      "creating": "リモートスケッチ'{0}'を作成中…",
+      "new": "新規リモートスケッチ",
+      "synchronizing": "スケッチブックを同期中。'{0}'を取得中です…"
     },
     "common": {
       "all": "全て",
@@ -305,10 +305,10 @@
       "unableToConnectToWebSocket": "websocketに接続することができません"
     },
     "newCloudSketch": {
-      "invalidSketchName": "The name must consist of basic letters, numbers, or underscores. The maximum length is 36 characters.",
-      "newSketchTitle": "Name of a new Remote Sketch",
-      "notFound": "Could not pull the remote sketch '{0}'. It does not exist.",
-      "sketchAlreadyExists": "Remote sketch '{0}' already exists."
+      "invalidSketchName": "名前は基本的な文字、数字、アンダースコアで構成されている必要があります。最大文字数は36文字です。",
+      "newSketchTitle": "新規リモートスケッチの名前",
+      "notFound": "リモートスケッチ'{0}'を取得できませんでした。存在しません。",
+      "sketchAlreadyExists": "リモートスケッチ'{0}'は既に存在しています。"
     },
     "portProtocol": {
       "network": "ネットワーク",
@@ -372,7 +372,7 @@
       "verifyAfterUpload": "書き込み後にコードを検証する",
       "window.autoScale": "ユーザーインターフェイスをフォントサイズに合わせて自動的に拡大縮小させるにはtrueを指定。",
       "window.zoomLevel": {
-        "deprecationMessage": "Deprecated. Use 'window.zoomLevel' instead."
+        "deprecationMessage": "廃止済み。代わりに'window.zoomLevel'を使用してください。"
       }
     },
     "replaceMsg": "{0}の既存のバージョンを置き換えますか？",
@@ -401,7 +401,7 @@
       "exportBinary": "コンパイル済みバイナリをエクスポート",
       "moving": "移動",
       "movingMsg": "ファイル\"{0}\"は、\"{1}\"という名前のスケッチフォルダの中にあることが必要です。\nこのフォルダを作成し、ファイルを移動させ、継続しますか？",
-      "new": "New Sketch",
+      "new": "新規スケッチ",
       "openFolder": "フォルダを開く",
       "openRecent": "最近使った項目を開く",
       "openSketchInNewWindow": "新規ウィンドウでスケッチを開く",
@@ -421,8 +421,8 @@
       "verifyOrCompile": "検証・コンパイル"
     },
     "sketchbook": {
-      "newRemoteSketch": "New Remote Sketch",
-      "newSketch": "New Sketch"
+      "newRemoteSketch": "新規リモートスケッチ",
+      "newSketch": "新規スケッチ"
     },
     "survey": {
       "answerSurvey": "アンケートに回答する",
