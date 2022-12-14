@@ -20,7 +20,7 @@ import {
   URI,
 } from './contribution';
 import { Dialog } from '@theia/core/lib/browser/dialogs';
-import { CurrentSketch } from '../../common/protocol/sketches-service-client-impl';
+import { CurrentSketch } from '../sketches-service-client-impl';
 import { SaveAsSketch } from './save-as-sketch';
 
 /**

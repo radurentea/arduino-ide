@@ -82,7 +82,10 @@ export class OpenSketch extends SketchContribution {
   }
 
   private async selectSketch(): Promise<Sketch | undefined> {
-    const config = await this.configService.getConfiguration();
+    const config = this.configService.tryGetConfig();
+    if (!config) {
+      return undefined;
+    }
     const defaultPath = await this.fileService.fsPath(
       new URI(config.sketchDirUri)
     );

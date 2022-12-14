@@ -178,9 +178,13 @@ export class ElectronMainMenuFactory extends TheiaElectronMainMenuFactory {
   ): Electron.MenuItemConstructorOptions[] {
     const showDisabled = options?.showDisabled !== false;
 
+    if (CompoundMenuNode.is(menu) && menu.id.includes('2_ports')) {
+      debugger;
+    }
+
     if (
       CompoundMenuNode.is(menu) &&
-      menu.children.length &&
+      (menu.children.length || alwaysVisibleSubmenu(menu)) && // hack for #569 and #655
       this.undefinedOrMatch(menu.when, options.context)
     ) {
       const role = CompoundMenuNode.getRole(menu);
@@ -193,10 +197,17 @@ export class ElectronMainMenuFactory extends TheiaElectronMainMenuFactory {
         this.fillMenuTemplate(myItems, child, args, options)
       );
       if (myItems.length === 0) {
-        return parentItems;
+        // hack for #569 and #655
+        if (!alwaysVisibleSubmenu(menu)) {
+          return parentItems;
+        }
       }
       if (role === CompoundMenuNodeRole.Submenu) {
-        parentItems.push({ label: menu.label, submenu: myItems });
+        parentItems.push({
+          label: menu.label,
+          submenu: myItems,
+          enabled: !!children.length && !alwaysVisibleSubmenu(menu), // hack for #569 and #655
+        });
       } else if (role === CompoundMenuNodeRole.Group && menu.id !== 'inline') {
         if (
           parentItems.length &&
@@ -278,4 +289,18 @@ export class ElectronMainMenuFactory extends TheiaElectronMainMenuFactory {
     }
     return parentItems;
   }
+}
+
+function alwaysVisibleSubmenu(menu: MenuNode): boolean {
+  if (CompoundMenuNode.is(menu)) {
+    // This implementation assumes that the submenu ID is the same as the last segment of the menu path.
+    return (
+      !menu.children.length &&
+      !![
+        ArduinoMenus.PORTS_SUBMENU,
+        ArduinoMenus.FILE__SKETCHBOOK_SUBMENU,
+      ].find((menuPath) => menuPath[menuPath.length - 1] === menu.id)
+    );
+  }
+  return false;
 }

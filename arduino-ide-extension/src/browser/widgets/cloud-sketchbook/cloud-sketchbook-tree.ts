@@ -29,7 +29,7 @@ import { DoNotAskAgainConfirmDialog } from '../../dialogs/do-not-ask-again-dialo
 import { SketchbookTree } from '../sketchbook/sketchbook-tree';
 import { firstToUpperCase } from '../../../common/utils';
 import { ArduinoPreferences } from '../../arduino-preferences';
-import { SketchesServiceClientImpl } from '../../../common/protocol/sketches-service-client-impl';
+import { SketchesServiceClientImpl } from '../../sketches-service-client-impl';
 import { FileStat } from '@theia/filesystem/lib/common/files';
 import { WorkspaceNode } from '@theia/navigator/lib/browser/navigator-tree';
 import { posix, splitSketchPath } from '../../create/create-paths';

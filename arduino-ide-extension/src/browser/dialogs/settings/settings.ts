@@ -169,9 +169,17 @@ export class SettingsService {
       this.preferenceService.get<boolean>(UPLOAD_VERBOSE_SETTING, true),
       this.preferenceService.get<boolean>(UPLOAD_VERIFY_SETTING, true),
       this.preferenceService.get<boolean>(SHOW_ALL_FILES_SETTING, false),
-      this.configService.getConfiguration(),
+      this.configService.config(),
     ]);
-    const { additionalUrls, sketchDirUri, network } = cliConfig;
+    const { config } = cliConfig;
+    let additionalUrls: string[] = [];
+    let sketchDirUri = '';
+    let network = Network.Default();
+    if (config) {
+      additionalUrls = config.additionalUrls;
+      sketchDirUri = config.sketchDirUri;
+      network = config.network;
+    }
     const sketchbookPath = await this.fileService.fsPath(new URI(sketchDirUri));
     return {
       editorFontSize,
@@ -274,10 +282,15 @@ export class SettingsService {
       network,
       sketchbookShowAllFiles,
     } = this._settings;
-    const [config, sketchDirUri] = await Promise.all([
-      this.configService.getConfiguration(),
+    const [cliConfig, sketchDirUri] = await Promise.all([
+      this.configService.config(),
       this.fileSystemExt.getUri(sketchbookPath),
     ]);
+    const { config, messages = [] } = cliConfig;
+    if (!config) {
+      return messages.join('\n');
+    }
+
     (config as any).additionalUrls = additionalUrls;
     (config as any).sketchDirUri = sketchDirUri;
     (config as any).network = network;
@@ -295,7 +308,7 @@ export class SettingsService {
       this.savePreference(UPLOAD_VERBOSE_SETTING, verboseOnUpload),
       this.savePreference(UPLOAD_VERIFY_SETTING, verifyAfterUpload),
       this.savePreference(SHOW_ALL_FILES_SETTING, sketchbookShowAllFiles),
-      this.configService.setConfiguration(config),
+      this.configService.updateConfig(config),
     ]);
     this.onDidChangeEmitter.fire(this._settings);
 

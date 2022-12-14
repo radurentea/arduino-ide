@@ -36,7 +36,7 @@ export abstract class Examples extends SketchContribution {
   private readonly commandRegistry: CommandRegistry;
 
   @inject(MenuModelRegistry)
-  private readonly menuRegistry: MenuModelRegistry;
+  protected readonly menuRegistry: MenuModelRegistry;
 
   @inject(ExamplesService)
   protected readonly examplesService: ExamplesService;

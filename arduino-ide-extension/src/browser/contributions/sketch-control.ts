@@ -22,7 +22,7 @@ import { EditorManager } from '@theia/editor/lib/browser/editor-manager';
 import {
   CurrentSketch,
   SketchesServiceClientImpl,
-} from '../../common/protocol/sketches-service-client-impl';
+} from '../sketches-service-client-impl';
 import { LocalCacheFsProvider } from '../local-cache/local-cache-fs-provider';
 import { nls } from '@theia/core/lib/common';
 

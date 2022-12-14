@@ -80,8 +80,11 @@ export class ClangFormatter implements Formatter {
   }
 
   private async dataDirPath(): Promise<string> {
-    const { dataDirUri } = await this.configService.getConfiguration();
-    return FileUri.fsPath(dataDirUri);
+    const { config, messages } = await this.configService.config();
+    if (!config) {
+      throw new Error(messages ? messages[0] : 'cli config was undefined');
+    }
+    return FileUri.fsPath(config.dataDirUri);
   }
 
   private async configDirPath(): Promise<string> {

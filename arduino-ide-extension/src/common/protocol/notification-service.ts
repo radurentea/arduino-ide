@@ -2,7 +2,7 @@ import type { JsonRpcServer } from '@theia/core/lib/common/messaging/proxy-facto
 import type {
   AttachedBoardsChangeEvent,
   BoardsPackage,
-  Config,
+  ConfigState,
   ProgressMessage,
   Sketch,
   IndexType,
@@ -50,7 +50,7 @@ export interface NotificationServiceClient {
   notifyDaemonDidStop(): void;
 
   // CLI config
-  notifyConfigDidChange(event: { config: Config | undefined }): void;
+  notifyConfigDidChange(event: ConfigState): void;
 
   // Platforms
   notifyPlatformDidInstall(event: { item: BoardsPackage }): void;

@@ -18,7 +18,7 @@ import {
   AttachedBoardsChangeEvent,
   BoardsPackage,
   LibraryPackage,
-  Config,
+  ConfigState,
   Sketch,
   ProgressMessage,
 } from '../common/protocol';
@@ -47,9 +47,7 @@ export class NotificationCenter
     new Emitter<IndexUpdateDidFailParams>();
   private readonly daemonDidStartEmitter = new Emitter<string>();
   private readonly daemonDidStopEmitter = new Emitter<void>();
-  private readonly configDidChangeEmitter = new Emitter<{
-    config: Config | undefined;
-  }>();
+  private readonly configDidChangeEmitter = new Emitter<ConfigState>();
   private readonly platformDidInstallEmitter = new Emitter<{
     item: BoardsPackage;
   }>();
@@ -139,7 +137,7 @@ export class NotificationCenter
     this.daemonDidStopEmitter.fire();
   }
 
-  notifyConfigDidChange(event: { config: Config | undefined }): void {
+  notifyConfigDidChange(event: ConfigState): void {
     this.configDidChangeEmitter.fire(event);
   }
 

@@ -5,7 +5,7 @@ import { WorkspaceDeleteHandler as TheiaWorkspaceDeleteHandler } from '@theia/wo
 import {
   CurrentSketch,
   SketchesServiceClientImpl,
-} from '../../../common/protocol/sketches-service-client-impl';
+} from '../../sketches-service-client-impl';
 import { nls } from '@theia/core/lib/common';
 
 @injectable()

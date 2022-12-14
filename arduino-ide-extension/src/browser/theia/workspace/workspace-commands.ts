@@ -15,7 +15,7 @@ import { WorkspaceInputDialog } from './workspace-input-dialog';
 import {
   CurrentSketch,
   SketchesServiceClientImpl,
-} from '../../../common/protocol/sketches-service-client-impl';
+} from '../../sketches-service-client-impl';
 import { SaveAsSketch } from '../../contributions/save-as-sketch';
 import { nls } from '@theia/core/lib/common';
 

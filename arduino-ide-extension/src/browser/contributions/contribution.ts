@@ -40,10 +40,9 @@ import { SettingsService } from '../dialogs/settings/settings';
 import {
   CurrentSketch,
   SketchesServiceClientImpl,
-} from '../../common/protocol/sketches-service-client-impl';
+} from '../sketches-service-client-impl';
 import {
   SketchesService,
-  ConfigService,
   FileSystemExt,
   Sketch,
   CoreService,
@@ -62,6 +61,7 @@ import { NotificationManager } from '../theia/messages/notifications-manager';
 import { MessageType } from '@theia/core/lib/common/message-service-protocol';
 import { WorkspaceService } from '../theia/workspace/workspace-service';
 import { MainMenuManager } from '../../common/main-menu-manager';
+import { ConfigServiceClient } from '../config/config-service-client';
 
 export {
   Command,
@@ -142,8 +142,8 @@ export abstract class SketchContribution extends Contribution {
   @inject(FileSystemExt)
   protected readonly fileSystemExt: FileSystemExt;
 
-  @inject(ConfigService)
-  protected readonly configService: ConfigService;
+  @inject(ConfigServiceClient)
+  protected readonly configService: ConfigServiceClient;
 
   @inject(SketchesService)
   protected readonly sketchService: SketchesService;

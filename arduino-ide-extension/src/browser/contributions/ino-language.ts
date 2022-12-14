@@ -7,7 +7,7 @@ import {
 } from '../../common/protocol';
 import { HostedPluginEvents } from '../hosted-plugin-events';
 import { SketchContribution, URI } from './contribution';
-import { CurrentSketch } from '../../common/protocol/sketches-service-client-impl';
+import { CurrentSketch } from '../sketches-service-client-impl';
 import { BoardsConfig } from '../boards/boards-config';
 import { BoardsServiceProvider } from '../boards/boards-service-provider';
 

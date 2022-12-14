@@ -10,7 +10,7 @@ import {
   MenuModelRegistry,
 } from './contribution';
 import { nls } from '@theia/core/lib/common';
-import { CurrentSketch } from '../../common/protocol/sketches-service-client-impl';
+import { CurrentSketch } from '../sketches-service-client-impl';
 
 @injectable()
 export class ArchiveSketch extends SketchContribution {
@@ -29,10 +29,12 @@ export class ArchiveSketch extends SketchContribution {
   }
 
   private async archiveSketch(): Promise<void> {
-    const [sketch, config] = await Promise.all([
-      this.sketchServiceClient.currentSketch(),
-      this.configService.getConfiguration(),
-    ]);
+    const config = this.configService.tryGetConfig();
+    if (!config) {
+      return;
+    }
+    const sketch = await this.sketchServiceClient.currentSketch();
+
     if (!CurrentSketch.isValid(sketch)) {
       return;
     }

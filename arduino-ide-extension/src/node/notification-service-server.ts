@@ -5,7 +5,7 @@ import type {
   AttachedBoardsChangeEvent,
   BoardsPackage,
   LibraryPackage,
-  Config,
+  ConfigState,
   Sketch,
   ProgressMessage,
   IndexUpdateWillStartParams,
@@ -69,7 +69,7 @@ export class NotificationServiceServerImpl
     );
   }
 
-  notifyConfigDidChange(event: { config: Config | undefined }): void {
+  notifyConfigDidChange(event: ConfigState): void {
     this.clients.forEach((client) => client.notifyConfigDidChange(event));
   }
 

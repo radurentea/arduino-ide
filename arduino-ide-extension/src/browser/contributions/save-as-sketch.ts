@@ -13,7 +13,7 @@ import {
 import { nls } from '@theia/core/lib/common';
 import { ApplicationShell, NavigatableWidget, Saveable } from '@theia/core/lib/browser';
 import { WindowService } from '@theia/core/lib/browser/window/window-service';
-import { CurrentSketch } from '../../common/protocol/sketches-service-client-impl';
+import { CurrentSketch } from '../sketches-service-client-impl';
 import { WorkspaceInput } from '@theia/workspace/lib/browser';
 import { StartupTask } from '../../electron-common/startup-task';
 import { DeleteSketch } from './delete-sketch';
@@ -58,10 +58,11 @@ export class SaveAsSketch extends SketchContribution {
       markAsRecentlyOpened,
     }: SaveAsSketch.Options = SaveAsSketch.Options.DEFAULT
   ): Promise<boolean> {
-    const [sketch, configuration] = await Promise.all([
-      this.sketchServiceClient.currentSketch(),
-      this.configService.getConfiguration(),
-    ]);
+    const configuration = this.configService.tryGetConfig();
+    if (!configuration) {
+      return false;
+    }
+    const sketch = await this.sketchServiceClient.currentSketch();
     if (!CurrentSketch.isValid(sketch)) {
       return false;
     }

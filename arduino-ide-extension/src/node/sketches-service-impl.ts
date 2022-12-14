@@ -184,8 +184,11 @@ export class SketchesServiceImpl
   }
 
   private async sketchbookUri(): Promise<string> {
-    const { sketchDirUri } = await this.configService.getConfiguration();
-    return sketchDirUri;
+    const { config, messages } = await this.configService.config();
+    if (!config) {
+      throw new Error(messages ? messages[0] : 'cli config was undefined');
+    }
+    return config.sketchDirUri;
   }
 
   async loadSketch(uri: string): Promise<SketchWithDetails> {
@@ -454,7 +457,10 @@ export class SketchesServiceImpl
     const sketchBaseName = `sketch_${
       monthNames[today.getMonth()]
     }${today.getDate()}`;
-    const config = await this.configService.getConfiguration();
+    const { config } = await this.configService.config();
+    if (!config) {
+      throw new Error();
+    }
     const sketchbookPath = FileUri.fsPath(config.sketchDirUri);
     let sketchName: string | undefined;
 

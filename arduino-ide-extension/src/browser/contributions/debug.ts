@@ -13,7 +13,7 @@ import {
   TabBarToolbarRegistry,
 } from './contribution';
 import { MaybePromise, MenuModelRegistry, nls } from '@theia/core/lib/common';
-import { CurrentSketch } from '../../common/protocol/sketches-service-client-impl';
+import { CurrentSketch } from '../sketches-service-client-impl';
 import { ArduinoMenus } from '../menu/arduino-menus';
 
 import { MainMenuManager } from '../../common/main-menu-manager';

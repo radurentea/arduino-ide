@@ -88,7 +88,10 @@ export class LocalCacheFsProvider
   }
 
   protected async init(fileService: FileService): Promise<void> {
-    const config = await this.configService.getConfiguration();
+    const { config, messages } = await this.configService.config();
+    if (!config) {
+      throw new Error(messages ? messages[0] : 'cli config was undefined');
+    }
     this._localCacheRoot = new URI(config.dataDirUri);
     for (const segment of ['RemoteSketchbook', 'ArduinoCloud']) {
       this._localCacheRoot = this._localCacheRoot.resolve(segment);

@@ -11,7 +11,7 @@ import {
   TabBarToolbarRegistry,
 } from './contribution';
 import { nls } from '@theia/core/lib/common';
-import { CurrentSketch } from '../../common/protocol/sketches-service-client-impl';
+import { CurrentSketch } from '../sketches-service-client-impl';
 import { CoreService } from '../../common/protocol';
 import { CoreErrorHandler } from './core-error-handler';
 

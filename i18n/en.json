@@ -157,6 +157,12 @@
       "uninstallMsg": "Do you want to uninstall {0}?",
       "version": "Version {0}"
     },
+    "configuration": {
+      "cli": {
+        "inaccessibleDirectory": "Could not access '{0}' folder at '{1}'. Reason: '{2}'",
+        "uninitialized": "Uninitialized"
+      }
+    },
     "contributions": {
       "addFile": "Add File",
       "fileAdded": "One file added to the sketch.",

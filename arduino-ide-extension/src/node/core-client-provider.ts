@@ -25,6 +25,7 @@ import {
   IndexUpdateDidFailParams,
   IndexUpdateWillStartParams,
   NotificationServiceServer,
+  AdditionalUrls,
 } from '../common/protocol';
 import { Deferred } from '@theia/core/lib/common/promise-util';
 import {
@@ -75,9 +76,15 @@ export class CoreClientProvider {
     });
     this.daemon.onDaemonStarted((port) => this.create(port));
     this.daemon.onDaemonStopped(() => this.closeClient());
-    this.configService.onConfigChange(
-      () => this.client.then((client) => this.updateIndex(client, ['platform'])) // Assuming 3rd party URL changes. No library index update is required.
-    );
+    this.configService.onConfigChange(({ oldState, newState }) => {
+      if (
+        !AdditionalUrls.sameAs(
+          oldState.config?.additionalUrls,
+          newState.config?.additionalUrls
+        )
+      )
+        this.client.then((client) => this.updateIndex(client, ['platform']));
+    });
   }
 
   get tryGetClient(): CoreClientProvider.Client | undefined {
