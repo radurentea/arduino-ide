@@ -171,15 +171,15 @@ export class SettingsService {
       this.preferenceService.get<boolean>(SHOW_ALL_FILES_SETTING, false),
       this.configService.getConfiguration(),
     ]);
-    const { config } = cliConfig;
-    let additionalUrls: string[] = [];
-    let sketchDirUri = '';
-    let network = Network.Default();
-    if (config) {
-      additionalUrls = config.additionalUrls;
-      sketchDirUri = config.sketchDirUri;
-      network = config.network;
-    }
+    const {
+      config = {
+        additionalUrls: [],
+        sketchDirUri: '',
+        network: Network.Default(),
+      },
+    } = cliConfig;
+    const { additionalUrls, sketchDirUri, network } = config;
+
     const sketchbookPath = await this.fileService.fsPath(new URI(sketchDirUri));
     return {
       editorFontSize,
