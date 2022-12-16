@@ -31,6 +31,8 @@ export class Sketchbook extends Examples {
           ArduinoMenus.FILE__SKETCHBOOK_SUBMENU[
             ArduinoMenus.FILE__SKETCHBOOK_SUBMENU.length - 1
           ]
+          // It's not possible to unregister submenu in Theia https://github.com/eclipse-theia/theia/issues/7300
+          // This workaround relies on how Theia calculates menu ID from the menu path.
         )
       )
     );
