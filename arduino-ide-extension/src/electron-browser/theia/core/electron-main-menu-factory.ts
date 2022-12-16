@@ -178,10 +178,6 @@ export class ElectronMainMenuFactory extends TheiaElectronMainMenuFactory {
   ): Electron.MenuItemConstructorOptions[] {
     const showDisabled = options?.showDisabled !== false;
 
-    if (CompoundMenuNode.is(menu) && menu.id.includes('2_ports')) {
-      debugger;
-    }
-
     if (
       CompoundMenuNode.is(menu) &&
       (menu.children.length || alwaysVisibleSubmenu(menu)) && // hack for #569 and #655
