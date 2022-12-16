@@ -50,9 +50,7 @@ export class ConfigServiceImpl
 
   private _configState: ConfigState = {
     config: undefined,
-    messages: [
-      nls.localize('arduino/configuration/cli/uninitialized', 'Uninitialized'),
-    ],
+    messages: ['uninitialized'],
   };
   private cliConfig: DefaultCliConfig | undefined;
   private ready = new Deferred<void>();

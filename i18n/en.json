@@ -159,8 +159,7 @@
     },
     "configuration": {
       "cli": {
-        "inaccessibleDirectory": "Could not access '{0}' folder at '{1}'. Reason: '{2}'",
-        "uninitialized": "Uninitialized"
+        "inaccessibleDirectory": "Could not access '{0}' folder at '{1}'. Reason: '{2}'"
       }
     },
     "contributions": {
