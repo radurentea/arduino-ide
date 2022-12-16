@@ -76,14 +76,26 @@ export class CoreClientProvider {
     });
     this.daemon.onDaemonStarted((port) => this.create(port));
     this.daemon.onDaemonStopped(() => this.closeClient());
-    this.configService.onConfigChange(({ oldState, newState }) => {
+    this.configService.onConfigChange(async ({ oldState, newState }) => {
       if (
         !AdditionalUrls.sameAs(
           oldState.config?.additionalUrls,
           newState.config?.additionalUrls
         )
-      )
-        this.client.then((client) => this.updateIndex(client, ['platform']));
+      ) {
+        const client = await this.client;
+        this.updateIndex(client, ['platform']);
+      } else if (
+        !!newState.config?.sketchDirUri &&
+        oldState.config?.sketchDirUri !== newState.config.sketchDirUri
+      ) {
+        // If the sketchbook location has changed, the custom libraries has changed.
+        // Reinitialize the core client and fire an event so that the frontend can refresh.
+        // https://github.com/arduino/arduino-ide/issues/796 (see the file > examples and sketch > include examples)
+        const client = await this.client;
+        await this.initInstance(client);
+        this.notificationService.notifyDidReinitialize();
+      }
     });
   }
 

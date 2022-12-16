@@ -37,6 +37,7 @@ export class NotificationCenter
   @inject(FrontendApplicationStateService)
   private readonly appStateService: FrontendApplicationStateService;
 
+  private readonly didReinitializeEmitter = new Emitter<void>();
   private readonly indexUpdateDidCompleteEmitter =
     new Emitter<IndexUpdateDidCompleteParams>();
   private readonly indexUpdateWillStartEmitter =
@@ -69,6 +70,7 @@ export class NotificationCenter
     new Emitter<FrontendApplicationState>();
 
   private readonly toDispose = new DisposableCollection(
+    this.didReinitializeEmitter,
     this.indexUpdateWillStartEmitter,
     this.indexUpdateDidProgressEmitter,
     this.indexUpdateDidCompleteEmitter,
@@ -83,6 +85,7 @@ export class NotificationCenter
     this.attachedBoardsDidChangeEmitter
   );
 
+  readonly onDidReinitialize = this.didReinitializeEmitter.event;
   readonly onIndexUpdateDidComplete = this.indexUpdateDidCompleteEmitter.event;
   readonly onIndexUpdateWillStart = this.indexUpdateWillStartEmitter.event;
   readonly onIndexUpdateDidProgress = this.indexUpdateDidProgressEmitter.event;
@@ -111,6 +114,10 @@ export class NotificationCenter
 
   onStop(): void {
     this.toDispose.dispose();
+  }
+
+  notifyDidReinitialize(): void {
+    this.didReinitializeEmitter.fire();
   }
 
   notifyIndexUpdateWillStart(params: IndexUpdateWillStartParams): void {

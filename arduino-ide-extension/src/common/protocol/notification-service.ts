@@ -39,6 +39,11 @@ export interface IndexUpdateDidFailParams extends IndexUpdateParams {
 }
 
 export interface NotificationServiceClient {
+  // The cached state of the core client. Libraries, examples, etc. has been updated.
+  // This can happen without an index update. For example, changing the `directories.user` location.
+  // An index update always implicitly involves a re-initialization without notifying via this method.
+  notifyDidReinitialize(): void;
+
   // Index
   notifyIndexUpdateWillStart(params: IndexUpdateWillStartParams): void;
   notifyIndexUpdateDidProgress(progressMessage: ProgressMessage): void;

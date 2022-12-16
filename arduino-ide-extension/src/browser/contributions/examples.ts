@@ -48,12 +48,21 @@ export abstract class Examples extends SketchContribution {
   @inject(BoardsServiceProvider)
   protected readonly boardsServiceClient: BoardsServiceProvider;
 
+  @inject(NotificationCenter)
+  protected readonly notificationCenter: NotificationCenter;
+
   protected readonly toDispose = new DisposableCollection();
 
   protected override init(): void {
     super.init();
     this.boardsServiceClient.onBoardsConfigChanged(({ selectedBoard }) =>
       this.handleBoardChanged(selectedBoard)
+    );
+    this.notificationCenter.onDidReinitialize(() =>
+      this.update({
+        board: this.boardsServiceClient.boardsConfig.selectedBoard,
+        // No force refresh. The core client was already refreshed.
+      })
     );
   }
 
@@ -245,9 +254,6 @@ export class BuiltInExamples extends Examples {
 
 @injectable()
 export class LibraryExamples extends Examples {
-  @inject(NotificationCenter)
-  private readonly notificationCenter: NotificationCenter;
-
   private readonly queue = new PQueue({ autoStart: true, concurrency: 1 });
 
   override onStart(): void {

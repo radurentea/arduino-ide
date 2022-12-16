@@ -19,6 +19,10 @@ export class NotificationServiceServerImpl
 {
   private readonly clients: NotificationServiceClient[] = [];
 
+  notifyDidReinitialize(): void {
+    this.clients.forEach((client) => client.notifyDidReinitialize());
+  }
+
   notifyIndexUpdateWillStart(params: IndexUpdateWillStartParams): void {
     this.clients.forEach((client) => client.notifyIndexUpdateWillStart(params));
   }
