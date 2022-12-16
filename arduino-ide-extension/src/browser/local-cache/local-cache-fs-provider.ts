@@ -98,7 +98,7 @@ export class LocalCacheFsProvider
     }
     const localCacheUri = new URI(config.dataDirUri);
     try {
-      fileService.access(localCacheUri);
+      await fileService.access(localCacheUri);
     } catch (err) {
       console.error(
         `'directories.data' location is inaccessible at ${config.dataDirUri}`,
