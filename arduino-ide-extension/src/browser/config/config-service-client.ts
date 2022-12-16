@@ -10,7 +10,7 @@ import {
   injectable,
   postConstruct,
 } from '@theia/core/shared/inversify';
-import { Config, ConfigService, ConfigState } from '../../common/protocol';
+import { ConfigService, ConfigState } from '../../common/protocol';
 import { NotificationCenter } from '../notification-center';
 
 @injectable()
@@ -33,7 +33,7 @@ export class ConfigServiceClient implements FrontendApplicationContribution {
     this.didChangeDataDirUriEmitter
   );
 
-  private _config: ConfigState | undefined;
+  private config: ConfigState | undefined;
 
   @postConstruct()
   protected init(): void {
@@ -63,20 +63,19 @@ export class ConfigServiceClient implements FrontendApplicationContribution {
     return this.delegate.getConfiguration();
   }
 
-  tryGetConfig(): Config | undefined {
-    return this._config?.config;
-  }
-
+  /**
+   * CLI config related error messages if any.
+   */
   tryGetMessages(): string[] | undefined {
-    return this._config?.messages;
+    return this.config?.messages;
   }
 
   /**
    * `directories.user`
    */
   tryGetSketchDirUri(): URI | undefined {
-    return this._config?.config?.sketchDirUri
-      ? new URI(this._config?.config?.sketchDirUri)
+    return this.config?.config?.sketchDirUri
+      ? new URI(this.config?.config?.sketchDirUri)
       : undefined;
   }
 
@@ -84,32 +83,22 @@ export class ConfigServiceClient implements FrontendApplicationContribution {
    * `directories.data`
    */
   tryGetDataDirUri(): URI | undefined {
-    return this._config?.config?.dataDirUri
-      ? new URI(this._config?.config?.dataDirUri)
+    return this.config?.config?.dataDirUri
+      ? new URI(this.config?.config?.dataDirUri)
       : undefined;
   }
 
   private use(config: ConfigState): void {
-    const oldConfig = deepClone(this._config);
-    this._config = config;
-    if (oldConfig?.config?.dataDirUri !== this._config?.config?.dataDirUri) {
-      this.didChangeDataDirUriEmitter.fire(
-        this._config.config?.dataDirUri
-          ? new URI(this._config.config.dataDirUri)
-          : undefined
-      );
+    const oldConfig = deepClone(this.config);
+    this.config = config;
+    if (oldConfig?.config?.sketchDirUri !== this.config?.config?.sketchDirUri) {
+      this.didChangeSketchDirUriEmitter.fire(this.tryGetSketchDirUri());
     }
-    if (
-      oldConfig?.config?.sketchDirUri !== this._config?.config?.sketchDirUri
-    ) {
-      this.didChangeSketchDirUriEmitter.fire(
-        this._config.config?.sketchDirUri
-          ? new URI(this._config.config.sketchDirUri)
-          : undefined
-      );
+    if (oldConfig?.config?.dataDirUri !== this.config?.config?.dataDirUri) {
+      this.didChangeDataDirUriEmitter.fire(this.tryGetDataDirUri());
     }
-    if (this._config.messages?.length) {
-      const message = this._config.messages.join(' ');
+    if (this.config.messages?.length) {
+      const message = this.config.messages.join(' ');
       // toast the error later otherwise it might not show up in IDE2
       setTimeout(() => this.messageService.error(message), 1_000);
     }

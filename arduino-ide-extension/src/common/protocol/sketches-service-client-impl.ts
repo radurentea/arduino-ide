@@ -66,17 +66,15 @@ export class SketchesServiceClientImpl
   private currentSketchLoaded = new Deferred<CurrentSketch>();
 
   onStart(): void {
-    const config = this.configService.tryGetConfig();
-    if (config) {
-      this.watchSketchbookDir(config.sketchDirUri);
-    }
+    const sketchDirUri = this.configService.tryGetSketchDirUri();
+    this.watchSketchbookDir(sketchDirUri);
     const refreshCurrentSketch = async () => {
       const currentSketch = await this.loadCurrentSketch();
       this.useCurrentSketch(currentSketch);
     };
     this.toDispose.push(
       this.configService.onDidChangeSketchDirUri((sketchDirUri) => {
-        this.watchSketchbookDir(sketchDirUri?.toString());
+        this.watchSketchbookDir(sketchDirUri);
         refreshCurrentSketch();
       })
     );
@@ -86,23 +84,22 @@ export class SketchesServiceClientImpl
   }
 
   private async watchSketchbookDir(
-    sketchDirUri: string | undefined
+    sketchDirUri: URI | undefined
   ): Promise<void> {
     this.toDisposeBeforeWatchSketchbookDir.dispose();
     if (!sketchDirUri) {
       return;
     }
     const container = await this.sketchService.getSketches({
-      uri: sketchDirUri,
+      uri: sketchDirUri.toString(),
     });
-    const sketchbookUri = new URI(sketchDirUri);
     for (const sketch of SketchContainer.toArray(container)) {
       this.sketches.set(sketch.uri, sketch);
     }
     this.toDisposeBeforeWatchSketchbookDir.pushAll([
       Disposable.create(() => this.sketches.clear()),
       // Watch changes in the sketchbook to update `File` > `Sketchbook` menu items.
-      this.fileService.watch(new URI(sketchDirUri), {
+      this.fileService.watch(sketchDirUri, {
         recursive: true,
         excludes: [],
       }),
@@ -145,7 +142,7 @@ export class SketchesServiceClientImpl
             return;
           }
           // We track main sketch files changes only. // TODO: check sketch folder changes. One can rename the folder without renaming the `.ino` file.
-          if (sketchbookUri.isEqualOrParent(resource)) {
+          if (sketchDirUri.isEqualOrParent(resource)) {
             if (Sketch.isSketchFile(resource)) {
               if (type === FileChangeType.ADDED) {
                 try {
@@ -165,7 +162,7 @@ export class SketchesServiceClientImpl
                 const toDelete = this.sketches.get(uri);
                 if (toDelete) {
                   console.log(
-                    `Sketch '${toDelete.name}' was removed from sketchbook '${sketchbookUri}'.`
+                    `Sketch '${toDelete.name}' was removed from sketchbook '${sketchDirUri}'.`
                   );
                   this.sketches.delete(uri);
                   this.fireSoon(toDelete, 'removed');
