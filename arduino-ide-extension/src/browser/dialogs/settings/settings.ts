@@ -287,8 +287,8 @@ export class SettingsService {
       this.fileSystemExt.getUri(sketchbookPath),
     ]);
     const { config, messages = [] } = cliConfig;
-    if (!config) {
-      return messages.join('\n');
+    if (!config || messages.length) {
+      return messages.join(' ');
     }
 
     (config as any).additionalUrls = additionalUrls;
