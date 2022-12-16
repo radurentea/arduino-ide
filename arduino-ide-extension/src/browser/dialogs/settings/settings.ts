@@ -286,9 +286,13 @@ export class SettingsService {
       this.configService.getConfiguration(),
       this.fileSystemExt.getUri(sketchbookPath),
     ]);
-    const { config, messages = [] } = cliConfig;
-    if (!config || messages.length) {
-      return messages.join(' ');
+    const { config } = cliConfig;
+    if (!config) {
+      // Do not check for any error messages. The config might has errors (such as invalid directories.user) right before saving the new values.
+      return nls.localize(
+        'arduino/preferences/noCliConfig',
+        'Could not load the CLI configuration.'
+      );
     }
 
     (config as any).additionalUrls = additionalUrls;
