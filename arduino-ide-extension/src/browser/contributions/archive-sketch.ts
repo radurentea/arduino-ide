@@ -28,12 +28,7 @@ export class ArchiveSketch extends SketchContribution {
   }
 
   private async archiveSketch(): Promise<void> {
-    const config = this.configService.tryGetConfig();
-    if (!config) {
-      return;
-    }
     const sketch = await this.sketchServiceClient.currentSketch();
-
     if (!CurrentSketch.isValid(sketch)) {
       return;
     }
