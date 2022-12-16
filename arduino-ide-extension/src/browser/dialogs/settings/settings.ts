@@ -291,7 +291,7 @@ export class SettingsService {
       // Do not check for any error messages. The config might has errors (such as invalid directories.user) right before saving the new values.
       return nls.localize(
         'arduino/preferences/noCliConfig',
-        'Could not load the CLI configuration.'
+        'Could not load the CLI configuration'
       );
     }
 

@@ -357,7 +357,7 @@
       "manualProxy": "Manual proxy configuration",
       "network": "Network",
       "newSketchbookLocation": "Select new sketchbook location",
-      "noCliConfig": "Could not load the CLI configuration.",
+      "noCliConfig": "Could not load the CLI configuration",
       "noProxy": "No proxy",
       "proxySettings": {
         "hostname": "Host name",
