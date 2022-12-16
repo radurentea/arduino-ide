@@ -39,9 +39,7 @@ export class MonacoEditorProvider extends TheiaMonacoEditorProvider {
 
   private installCustomReferencesController(editor: MonacoEditor): Disposable {
     const control = editor.getControl();
-    const referencesController: any = control.getContribution(
-      'editor.contrib.referencesController'
-    );
+    const referencesController: any = control.getContribution('editor.contrib.referencesController');
     const originalToggleWidget = referencesController.toggleWidget;
     const toDispose = new DisposableCollection();
     const toDisposeBeforeToggleWidget = new DisposableCollection();

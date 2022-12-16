@@ -375,9 +375,7 @@ export class CloudSketchbookTree extends SketchbookTree {
     );
   }
 
-  override async resolveChildren(
-    parent: CompositeTreeNode
-  ): Promise<TreeNode[]> {
+  override async resolveChildren(parent: CompositeTreeNode): Promise<TreeNode[]> {
     return (await super.resolveChildren(parent)).sort((a, b) => {
       if (
         WorkspaceNode.is(parent) &&

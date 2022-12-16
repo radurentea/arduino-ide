@@ -171,14 +171,12 @@ export class SketchbookTreeModel extends FileTreeModel {
   }
 
   protected async createRoot(): Promise<TreeNode | undefined> {
-    const config = this.configService.tryGetConfig();
+    const sketchDirUri = this.configService.tryGetDataDirUri();
     const errors = this.configService.tryGetMessages();
-    if (!config || errors?.length) {
+    if (!sketchDirUri || errors?.length) {
       return undefined;
     }
-    const rootFileStats = await this.fileService.resolve(
-      new URI(config.sketchDirUri)
-    );
+    const rootFileStats = await this.fileService.resolve(sketchDirUri);
 
     if (this.workspaceService.opened && rootFileStats.children) {
       // filter out libraries and hardware
@@ -197,10 +195,7 @@ export class SketchbookTreeModel extends FileTreeModel {
   /**
    * Move the given source file or directory to the given target directory.
    */
-  override async move(
-    source: TreeNode,
-    target: TreeNode
-  ): Promise<URI | undefined> {
+  override async move(source: TreeNode, target: TreeNode): Promise<URI | undefined> {
     if (source.parent && WorkspaceRootNode.is(source)) {
       // do not support moving a root folder
       return undefined;
