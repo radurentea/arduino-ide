@@ -1,12 +1,8 @@
-import {
-  inject,
-  injectable,
-  postConstruct,
-} from '@theia/core/shared/inversify';
+import { inject, injectable, postConstruct } from '@theia/core/shared/inversify';
 import URI from '@theia/core/lib/common/uri';
 import { FileNode, FileTreeModel } from '@theia/filesystem/lib/browser';
 import { FileService } from '@theia/filesystem/lib/browser/file-service';
-import { ConfigServiceClient } from '../../config/config-service-client';
+import { ConfigServiceClient } from './../../config/config-service-client';
 import { SketchbookTree } from './sketchbook-tree';
 import { ArduinoPreferences } from '../../arduino-preferences';
 import {
@@ -17,10 +13,7 @@ import {
 } from '@theia/core/lib/browser/tree';
 import { SketchbookCommands } from './sketchbook-commands';
 import { OpenerService, open } from '@theia/core/lib/browser';
-import {
-  CurrentSketch,
-  SketchesServiceClientImpl,
-} from '../../../common/protocol/sketches-service-client-impl';
+import { CurrentSketch, SketchesServiceClientImpl } from '../../../common/protocol/sketches-service-client-impl';
 import { CommandRegistry } from '@theia/core/lib/common/command';
 import { WorkspaceService } from '@theia/workspace/lib/browser/workspace-service';
 import { FrontendApplicationStateService } from '@theia/core/lib/browser/frontend-application-state';
