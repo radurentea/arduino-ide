@@ -180,7 +180,7 @@ export class ElectronMainMenuFactory extends TheiaElectronMainMenuFactory {
 
     if (
       CompoundMenuNode.is(menu) &&
-      (menu.children.length || alwaysVisibleSubmenu(menu)) && // hack for #569 and #655
+      this.visibleSubmenu(menu) && // customization for #569 and #655
       this.undefinedOrMatch(menu.when, options.context)
     ) {
       const role = CompoundMenuNode.getRole(menu);
@@ -193,8 +193,8 @@ export class ElectronMainMenuFactory extends TheiaElectronMainMenuFactory {
         this.fillMenuTemplate(myItems, child, args, options)
       );
       if (myItems.length === 0) {
-        // hack for #569 and #655
-        if (!alwaysVisibleSubmenu(menu)) {
+        // customization for #569 and #655
+        if (!this.visibleLeafSubmenu(menu)) {
           return parentItems;
         }
       }
@@ -202,7 +202,7 @@ export class ElectronMainMenuFactory extends TheiaElectronMainMenuFactory {
         parentItems.push({
           label: menu.label,
           submenu: myItems,
-          enabled: !!children.length && !alwaysVisibleSubmenu(menu), // hack for #569 and #655
+          enabled: !this.visibleLeafSubmenu(menu), // customization for #569 and #655
         });
       } else if (role === CompoundMenuNodeRole.Group && menu.id !== 'inline') {
         if (
@@ -285,18 +285,31 @@ export class ElectronMainMenuFactory extends TheiaElectronMainMenuFactory {
     }
     return parentItems;
   }
+
+  /**
+   * `true` if either has at least `children`, or was forced to be visible.
+   */
+  private visibleSubmenu(node: MenuNode & CompoundMenuNode): boolean {
+    return node.children.length > 0 || this.visibleLeafSubmenu(node);
+  }
+
+  /**
+   * The node is a visible submenu if is a compound node but has zero children.
+   */
+  private visibleLeafSubmenu(node: MenuNode): boolean {
+    if (CompoundMenuNode.is(node)) {
+      return (
+        node.children.length === 0 &&
+        AlwaysVisibleSubmenus.findIndex(
+          (menuPath) => menuPath[menuPath.length - 1] === node.id
+        ) >= 0
+      );
+    }
+    return false;
+  }
 }
 
-function alwaysVisibleSubmenu(menu: MenuNode): boolean {
-  if (CompoundMenuNode.is(menu)) {
-    // This implementation assumes that the submenu ID is the same as the last segment of the menu path.
-    return (
-      !menu.children.length &&
-      !![
-        ArduinoMenus.PORTS_SUBMENU,
-        ArduinoMenus.FILE__SKETCHBOOK_SUBMENU,
-      ].find((menuPath) => menuPath[menuPath.length - 1] === menu.id)
-    );
-  }
-  return false;
-}
+const AlwaysVisibleSubmenus: MenuPath[] = [
+  ArduinoMenus.TOOLS__PORTS_SUBMENU, // #655
+  ArduinoMenus.FILE__SKETCHBOOK_SUBMENU, // #569
+];

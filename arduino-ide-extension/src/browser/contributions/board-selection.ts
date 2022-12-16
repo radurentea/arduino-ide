@@ -155,7 +155,7 @@ PID: ${PID}`;
     );
 
     // Ports submenu
-    const portsSubmenuPath = ArduinoMenus.PORTS_SUBMENU;
+    const portsSubmenuPath = ArduinoMenus.TOOLS__PORTS_SUBMENU;
     const portsSubmenuLabel = config.selectedPort?.address;
     this.menuModelRegistry.registerSubmenu(
       portsSubmenuPath,
