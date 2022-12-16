@@ -171,7 +171,7 @@ export class SketchbookTreeModel extends FileTreeModel {
   }
 
   protected async createRoot(): Promise<TreeNode | undefined> {
-    const sketchDirUri = this.configService.tryGetDataDirUri();
+    const sketchDirUri = this.configService.tryGetSketchDirUri();
     const errors = this.configService.tryGetMessages();
     if (!sketchDirUri || errors?.length) {
       return undefined;
