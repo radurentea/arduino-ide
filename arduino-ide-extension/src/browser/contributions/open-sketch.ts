@@ -1,6 +1,7 @@
 import * as remote from '@theia/core/electron-shared/@electron/remote';
 import { nls } from '@theia/core/lib/common/nls';
-import { injectable } from '@theia/core/shared/inversify';
+import { EnvVariablesServer } from '@theia/core/lib/common/env-variables';
+import { inject, injectable } from '@theia/core/shared/inversify';
 import { FileService } from '@theia/filesystem/lib/browser/file-service';
 import { LabelProvider } from '@theia/core/lib/browser/label-provider';
 import {
@@ -37,6 +38,9 @@ export namespace SketchLocation {
 
 @injectable()
 export class OpenSketch extends SketchContribution {
+  @inject(EnvVariablesServer)
+  private readonly envVariableServer: EnvVariablesServer;
+
   override registerCommands(registry: CommandRegistry): void {
     registry.registerCommand(OpenSketch.Commands.OPEN_SKETCH, {
       execute: async (arg) => {
@@ -82,13 +86,7 @@ export class OpenSketch extends SketchContribution {
   }
 
   private async selectSketch(): Promise<Sketch | undefined> {
-    const config = this.configService.tryGetConfig();
-    if (!config) {
-      return undefined;
-    }
-    const defaultPath = await this.fileService.fsPath(
-      new URI(config.sketchDirUri)
-    );
+    const defaultPath = await this.defaultPath();
     const { filePaths } = await remote.dialog.showOpenDialog(
       remote.getCurrentWindow(),
       {
@@ -123,6 +121,16 @@ export class OpenSketch extends SketchContribution {
         labelProvider: this.labelProvider,
       });
     }
+  }
+
+  private async defaultPath(): Promise<string> {
+    const errors = this.configService.tryGetMessages();
+    let defaultUri = this.configService.tryGetSketchDirUri();
+    if (!defaultUri || errors?.length) {
+      // Fall back to user home when the `directories.user` is not available or there are known CLI config errors
+      defaultUri = new URI(await this.envVariableServer.getHomeDirUri());
+    }
+    return this.fileService.fsPath(defaultUri);
   }
 }
 
