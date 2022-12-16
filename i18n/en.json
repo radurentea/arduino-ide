@@ -159,7 +159,7 @@
     },
     "configuration": {
       "cli": {
-        "inaccessibleDirectory": "Could not access '{0}' folder at '{1}'. Reason: '{2}'"
+        "inaccessibleDirectory": "Could not access the sketchbook location at '{0}': {1}"
       }
     },
     "contributions": {

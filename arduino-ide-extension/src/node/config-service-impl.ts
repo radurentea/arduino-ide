@@ -63,7 +63,7 @@ export class ConfigServiceImpl
     this.initConfig();
   }
 
-  async getCliConfigFileUri(): Promise<string> {
+  private async getCliConfigFileUri(): Promise<string> {
     const configDirUri = await this.envVariablesServer.getConfigDirUri();
     return new URI(configDirUri).resolve(CLI_CONFIG).toString();
   }
@@ -262,7 +262,6 @@ export class ConfigServiceImpl
     const accessible = (folderPath: string) =>
       fs.access(folderPath, constants.R_OK | constants.W_OK);
     const toConfigErrors = (
-      key: string,
       folderPath: string,
       result: PromiseSettledResult<unknown>
     ) =>
@@ -270,8 +269,7 @@ export class ConfigServiceImpl
         ? [
             nls.localize(
               'arduino/configuration/cli/inaccessibleDirectory',
-              "Could not access '{0}' folder at '{1}'. Reason: '{2}'",
-              `directories.${key}`,
+              "Could not access the sketchbook location at '{0}': {1}",
               folderPath,
               String(result.reason)
             ),
@@ -279,9 +277,7 @@ export class ConfigServiceImpl
         : [];
     const { user } = directories;
     const [userAccessible] = await Promise.allSettled([accessible(user)]); // XXX: validate `directory.data` if required
-    return ([] as string[]).concat(
-      toConfigErrors('user', user, userAccessible)
-    );
+    return [...toConfigErrors(user, userAccessible)];
   }
 
   private async updateDaemon(

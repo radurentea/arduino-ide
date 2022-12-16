@@ -6,7 +6,6 @@ export interface ConfigService {
   getVersion(): Promise<
     Readonly<{ version: string; commit: string; status?: string }>
   >;
-  getCliConfigFileUri(): Promise<string>;
   getConfiguration(): Promise<ConfigState>;
   setConfiguration(config: Config): Promise<void>;
 }

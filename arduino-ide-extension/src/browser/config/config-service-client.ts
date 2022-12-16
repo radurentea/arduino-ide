@@ -3,9 +3,13 @@ import { FrontendApplicationStateService } from '@theia/core/lib/browser/fronten
 import { DisposableCollection } from '@theia/core/lib/common/disposable';
 import { Emitter, Event } from '@theia/core/lib/common/event';
 import { MessageService } from '@theia/core/lib/common/message-service';
-import { Deferred } from '@theia/core/lib/common/promise-util';
+import { deepClone } from '@theia/core/lib/common/objects';
 import URI from '@theia/core/lib/common/uri';
-import { inject, injectable } from '@theia/core/shared/inversify';
+import {
+  inject,
+  injectable,
+  postConstruct,
+} from '@theia/core/shared/inversify';
 import { Config, ConfigService, ConfigState } from '../../common/protocol';
 import { NotificationCenter } from '../notification-center';
 
@@ -29,16 +33,17 @@ export class ConfigServiceClient implements FrontendApplicationContribution {
     this.didChangeDataDirUriEmitter
   );
 
-  private configFileUri: Deferred<URI> | undefined;
   private _config: ConfigState | undefined;
-  private _dataDirUri: string | undefined;
-  private _sketchDirUri: string | undefined;
 
-  onStart(): void {
+  @postConstruct()
+  protected init(): void {
     this.appStateService.reachedState('ready').then(async () => {
       const config = await this.fetchConfig();
       this.use(config);
     });
+  }
+
+  onStart(): void {
     this.notificationCenter.onConfigDidChange((config) => this.use(config));
   }
 
@@ -52,26 +57,6 @@ export class ConfigServiceClient implements FrontendApplicationContribution {
 
   get onDidChangeDataDirUri(): Event<URI | undefined> {
     return this.didChangeSketchDirUriEmitter.event;
-  }
-
-  async getCliConfigFileUri(): Promise<URI> {
-    if (!this.configFileUri) {
-      this.configFileUri = new Deferred();
-      setTimeout(async () => {
-        try {
-          const uri = await this.delegate.getCliConfigFileUri();
-          this.configFileUri?.resolve(new URI(uri));
-        } catch (err) {
-          console.error(
-            `Could not retrieve the URI of the CLI configuration file`,
-            err
-          );
-          this.configFileUri?.reject(err);
-          this.configFileUri = undefined;
-        }
-      });
-    }
-    return this.configFileUri.promise;
   }
 
   async fetchConfig(): Promise<ConfigState> {
@@ -90,32 +75,43 @@ export class ConfigServiceClient implements FrontendApplicationContribution {
    * `directories.user`
    */
   tryGetSketchDirUri(): URI | undefined {
-    return this._sketchDirUri ? new URI(this._sketchDirUri) : undefined;
+    return this._config?.config?.sketchDirUri
+      ? new URI(this._config?.config?.sketchDirUri)
+      : undefined;
   }
 
   /**
    * `directories.data`
    */
   tryGetDataDirUri(): URI | undefined {
-    return this._dataDirUri ? new URI(this._dataDirUri) : undefined;
+    return this._config?.config?.dataDirUri
+      ? new URI(this._config?.config?.dataDirUri)
+      : undefined;
   }
 
   private use(config: ConfigState): void {
+    const oldConfig = deepClone(this._config);
     this._config = config;
-    if (this._dataDirUri !== this._config?.config?.dataDirUri) {
-      this._dataDirUri = this._config?.config?.dataDirUri;
+    if (oldConfig?.config?.dataDirUri !== this._config?.config?.dataDirUri) {
       this.didChangeDataDirUriEmitter.fire(
-        this._dataDirUri ? new URI(this._dataDirUri) : undefined
+        this._config.config?.dataDirUri
+          ? new URI(this._config.config.dataDirUri)
+          : undefined
       );
     }
-    if (this._sketchDirUri !== this._config?.config?.sketchDirUri) {
-      this._sketchDirUri = this._config?.config?.sketchDirUri;
+    if (
+      oldConfig?.config?.sketchDirUri !== this._config?.config?.sketchDirUri
+    ) {
       this.didChangeSketchDirUriEmitter.fire(
-        this._sketchDirUri ? new URI(this._sketchDirUri) : undefined
+        this._config.config?.sketchDirUri
+          ? new URI(this._config.config.sketchDirUri)
+          : undefined
       );
     }
     if (this._config.messages?.length) {
-      this.messageService.error(this._config.messages.join(' '));
+      const message = this._config.messages.join(' ');
+      // toast the error later otherwise it might not show up in IDE2
+      setTimeout(() => this.messageService.error(message), 1_000);
     }
   }
 }
