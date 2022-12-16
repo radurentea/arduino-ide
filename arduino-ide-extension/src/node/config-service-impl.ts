@@ -48,7 +48,7 @@ export class ConfigServiceImpl
   @inject(NotificationServiceServer)
   private readonly notificationService: NotificationServiceServer;
 
-  private _configState: ConfigState = {
+  private _config: ConfigState = {
     config: undefined,
     messages: ['uninitialized'],
   };
@@ -70,16 +70,16 @@ export class ConfigServiceImpl
 
   async getConfiguration(): Promise<ConfigState> {
     await this.ready.promise;
-    return { ...this._configState };
+    return { ...this._config };
   }
 
   // Used by frontend to update the config.
   async setConfiguration(config: Config): Promise<void> {
     await this.ready.promise;
-    if (Config.sameAs(this._configState.config, config)) {
+    if (Config.sameAs(this._config.config, config)) {
       return;
     }
-    const oldConfigState = deepClone(this._configState);
+    const oldConfigState = deepClone(this._config);
     let copyDefaultCliConfig: DefaultCliConfig | undefined = deepClone(
       this.cliConfig
     );
@@ -104,16 +104,16 @@ export class ConfigServiceImpl
     await this.updateDaemon(port, copyDefaultCliConfig);
     await this.writeDaemonState(port);
 
-    this._configState.config = deepClone(config);
+    this._config.config = deepClone(config);
     this.cliConfig = copyDefaultCliConfig;
     try {
       await this.validateCliConfig(this.cliConfig);
-      delete this._configState.messages;
-      this.fireConfigChanged(oldConfigState, this._configState);
+      delete this._config.messages;
+      this.fireConfigChanged(oldConfigState, this._config);
     } catch (err) {
       if (err instanceof InvalidConfigError) {
-        this._configState.messages = err.errors;
-        this.fireConfigChanged(oldConfigState, this._configState);
+        this._config.messages = err.errors;
+        this.fireConfigChanged(oldConfigState, this._config);
       } else {
         throw err;
       }
@@ -154,9 +154,9 @@ export class ConfigServiceImpl
           // The validation will take care of the missing location handling.
         }),
       ]);
-      this._configState.config = config;
+      this._config.config = config;
       await this.validateCliConfig(this.cliConfig);
-      delete this._configState.messages;
+      delete this._config.messages;
       if (config) {
         this.ready.resolve();
         return;
@@ -164,7 +164,7 @@ export class ConfigServiceImpl
     } catch (err: unknown) {
       this.logger.error('Failed to initialize the CLI configuration.', err);
       if (err instanceof InvalidConfigError) {
-        this._configState.messages = err.errors;
+        this._config.messages = err.errors;
         this.ready.resolve();
       }
     }
@@ -190,7 +190,7 @@ export class ConfigServiceImpl
     } catch (error) {
       if (ErrnoException.isENOENT(error)) {
         if (initializeIfAbsent) {
-          await this.createCliConfig(dirname(cliConfigPath));
+          await this.initCliConfigTo(dirname(cliConfigPath));
           return this.loadCliConfig(false);
         }
       }
@@ -209,7 +209,7 @@ export class ConfigServiceImpl
     return JSON.parse(rawJson);
   }
 
-  private async createCliConfig(fsPathToDir: string): Promise<void> {
+  private async initCliConfigTo(fsPathToDir: string): Promise<void> {
     const cliPath = await this.daemon.getExecPath();
     await spawnCommand(`"${cliPath}"`, [
       'config',
