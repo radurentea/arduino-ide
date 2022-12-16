@@ -1,7 +1,6 @@
 import { injectable } from '@theia/core/shared/inversify';
 import * as remote from '@theia/core/electron-shared/@electron/remote';
 import * as dateFormat from 'dateformat';
-import URI from '@theia/core/lib/common/uri';
 import { ArduinoMenus } from '../menu/arduino-menus';
 import {
   SketchContribution,
@@ -42,9 +41,9 @@ export class ArchiveSketch extends SketchContribution {
       new Date(),
       'yymmdd'
     )}a.zip`;
-    const defaultPath = await this.fileService.fsPath(
-      new URI(config.sketchDirUri).resolve(archiveBasename)
-    );
+    const defaultContainerUri = await this.defaultUri();
+    const defaultUri = defaultContainerUri.resolve(archiveBasename);
+    const defaultPath = await this.fileService.fsPath(defaultUri);
     const { filePath, canceled } = await remote.dialog.showSaveDialog(
       remote.getCurrentWindow(),
       {
