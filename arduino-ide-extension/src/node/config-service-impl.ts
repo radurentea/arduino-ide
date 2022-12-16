@@ -48,7 +48,7 @@ export class ConfigServiceImpl
   @inject(NotificationServiceServer)
   private readonly notificationService: NotificationServiceServer;
 
-  private _config: ConfigState = {
+  private config: ConfigState = {
     config: undefined,
     messages: ['uninitialized'],
   };
@@ -70,16 +70,16 @@ export class ConfigServiceImpl
 
   async getConfiguration(): Promise<ConfigState> {
     await this.ready.promise;
-    return { ...this._config };
+    return { ...this.config };
   }
 
   // Used by frontend to update the config.
   async setConfiguration(config: Config): Promise<void> {
     await this.ready.promise;
-    if (Config.sameAs(this._config.config, config)) {
+    if (Config.sameAs(this.config.config, config)) {
       return;
     }
-    const oldConfigState = deepClone(this._config);
+    const oldConfigState = deepClone(this.config);
     let copyDefaultCliConfig: DefaultCliConfig | undefined = deepClone(
       this.cliConfig
     );
@@ -104,16 +104,16 @@ export class ConfigServiceImpl
     await this.updateDaemon(port, copyDefaultCliConfig);
     await this.writeDaemonState(port);
 
-    this._config.config = deepClone(config);
+    this.config.config = deepClone(config);
     this.cliConfig = copyDefaultCliConfig;
     try {
       await this.validateCliConfig(this.cliConfig);
-      delete this._config.messages;
-      this.fireConfigChanged(oldConfigState, this._config);
+      delete this.config.messages;
+      this.fireConfigChanged(oldConfigState, this.config);
     } catch (err) {
       if (err instanceof InvalidConfigError) {
-        this._config.messages = err.errors;
-        this.fireConfigChanged(oldConfigState, this._config);
+        this.config.messages = err.errors;
+        this.fireConfigChanged(oldConfigState, this.config);
       } else {
         throw err;
       }
@@ -154,9 +154,9 @@ export class ConfigServiceImpl
           // The validation will take care of the missing location handling.
         }),
       ]);
-      this._config.config = config;
+      this.config.config = config;
       await this.validateCliConfig(this.cliConfig);
-      delete this._config.messages;
+      delete this.config.messages;
       if (config) {
         this.ready.resolve();
         return;
@@ -164,7 +164,7 @@ export class ConfigServiceImpl
     } catch (err: unknown) {
       this.logger.error('Failed to initialize the CLI configuration.', err);
       if (err instanceof InvalidConfigError) {
-        this._config.messages = err.errors;
+        this.config.messages = err.errors;
         this.ready.resolve();
       }
     }
