@@ -56,7 +56,7 @@ export class ConfigServiceClient implements FrontendApplicationContribution {
   }
 
   get onDidChangeDataDirUri(): Event<URI | undefined> {
-    return this.didChangeSketchDirUriEmitter.event;
+    return this.didChangeDataDirUriEmitter.event;
   }
 
   async fetchConfig(): Promise<ConfigState> {
