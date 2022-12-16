@@ -474,10 +474,9 @@ export class SketchesServiceImpl
       monthNames[today.getMonth()]
     }${today.getDate()}`;
     const { config } = await this.configService.getConfiguration();
-    if (!config) {
-      throw new Error();
-    }
-    const sketchbookPath = FileUri.fsPath(config.sketchDirUri);
+    const sketchbookPath = config?.sketchDirUri
+      ? FileUri.fsPath(config?.sketchDirUri)
+      : os.homedir();
     let sketchName: string | undefined;
 
     // If it's another day, reset the count of sketches created today
