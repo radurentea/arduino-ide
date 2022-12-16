@@ -13,9 +13,7 @@ export class MonacoTextModelService extends TheiaMonacoTextModelService {
   @inject(SketchesServiceClientImpl)
   protected readonly sketchesServiceClient: SketchesServiceClientImpl;
 
-  protected override async createModel(
-    resource: Resource
-  ): Promise<MonacoEditorModel> {
+  protected override async createModel(resource: Resource): Promise<MonacoEditorModel> {
     const factory = this.factories
       .getContributions()
       .find(({ scheme }) => resource.uri.scheme === scheme);
