@@ -10,6 +10,7 @@ import {
   DisposableCollection,
 } from '@theia/core/lib/common/disposable';
 import { FrontendApplicationContribution } from '@theia/core/lib/browser/frontend-application';
+import { ConfigServiceClient } from '../../browser/config/config-service-client';
 import { Sketch, SketchesService } from '.';
 import { SketchContainer, SketchesError, SketchRef } from './sketches-service';
 import {
@@ -19,7 +20,6 @@ import {
 import * as monaco from '@theia/monaco-editor-core';
 import { Deferred } from '@theia/core/lib/common/promise-util';
 import { FrontendApplicationStateService } from '@theia/core/lib/browser/frontend-application-state';
-import { ConfigServiceClient } from '../../browser/config/config-service-client';
 
 const READ_ONLY_FILES = ['sketch.json'];
 const READ_ONLY_FILES_REMOTE = ['thingProperties.h', 'thingsProperties.h'];

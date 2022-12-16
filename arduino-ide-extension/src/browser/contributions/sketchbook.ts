@@ -1,11 +1,11 @@
-import { CommandHandler } from '@theia/core/lib/common/command';
-import { Disposable } from '@theia/core/lib/common/disposable';
-import { nls } from '@theia/core/lib/common/nls';
 import { injectable } from '@theia/core/shared/inversify';
-import { SketchesError } from '../../common/protocol';
+import { Disposable } from '@theia/core/lib/common/disposable';
+import { CommandHandler } from '@theia/core/lib/common/command';
 import { ArduinoMenus } from '../menu/arduino-menus';
 import { Examples } from './examples';
+import { SketchesError } from '../../common/protocol';
 import { OpenSketch } from './open-sketch';
+import { nls } from '@theia/core/lib/common/nls';
 
 @injectable()
 export class Sketchbook extends Examples {

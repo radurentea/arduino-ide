@@ -1,12 +1,12 @@
-import URI from '@theia/core/lib/common/uri';
 import {
   inject,
   injectable,
   postConstruct,
 } from '@theia/core/shared/inversify';
 import { Diagnostic } from '@theia/core/shared/vscode-languageserver-types';
-import { ProblemManager as TheiaProblemManager } from '@theia/markers/lib/browser/problem/problem-manager';
+import URI from '@theia/core/lib/common/uri';
 import { Marker } from '@theia/markers/lib/common/marker';
+import { ProblemManager as TheiaProblemManager } from '@theia/markers/lib/browser/problem/problem-manager';
 import { ConfigServiceClient } from '../../config/config-service-client';
 import debounce = require('lodash.debounce');
 

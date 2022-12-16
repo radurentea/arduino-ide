@@ -1,15 +1,11 @@
-import { FrontendApplicationStateService } from '@theia/core/lib/browser/frontend-application-state';
-import { TabBarDecoratorService as TheiaTabBarDecoratorService } from '@theia/core/lib/browser/shell/tab-bar-decorator';
-import { WidgetDecoration } from '@theia/core/lib/browser/widget-decoration';
+import { inject, injectable, postConstruct } from '@theia/core/shared/inversify';
 import URI from '@theia/core/lib/common/uri';
 import { Title, Widget } from '@theia/core/shared/@phosphor/widgets';
-import {
-  inject,
-  injectable,
-  postConstruct,
-} from '@theia/core/shared/inversify';
 import { EditorWidget } from '@theia/editor/lib/browser';
+import { WidgetDecoration } from '@theia/core/lib/browser/widget-decoration';
+import { TabBarDecoratorService as TheiaTabBarDecoratorService } from '@theia/core/lib/browser/shell/tab-bar-decorator';
 import { ConfigServiceClient } from '../../config/config-service-client';
+import { FrontendApplicationStateService } from '@theia/core/lib/browser/frontend-application-state';
 
 @injectable()
 export class TabBarDecoratorService extends TheiaTabBarDecoratorService {
