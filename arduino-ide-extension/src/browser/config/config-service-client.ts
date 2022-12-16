@@ -59,7 +59,7 @@ export class ConfigServiceClient implements FrontendApplicationContribution {
       this.configFileUri = new Deferred();
       setTimeout(async () => {
         try {
-          const uri = await this.delegate.configFileUri();
+          const uri = await this.delegate.getCliConfigFileUri();
           this.configFileUri?.resolve(new URI(uri));
         } catch (err) {
           console.error(
@@ -75,7 +75,7 @@ export class ConfigServiceClient implements FrontendApplicationContribution {
   }
 
   async fetchConfig(): Promise<ConfigState> {
-    return this.delegate.config();
+    return this.delegate.getConfiguration();
   }
 
   tryGetConfig(): Config | undefined {

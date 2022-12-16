@@ -6,9 +6,9 @@ export interface ConfigService {
   getVersion(): Promise<
     Readonly<{ version: string; commit: string; status?: string }>
   >;
-  configFileUri(): Promise<string>;
-  config(): Promise<ConfigState>;
-  updateConfig(config: Config): Promise<void>;
+  getCliConfigFileUri(): Promise<string>;
+  getConfiguration(): Promise<ConfigState>;
+  setConfiguration(config: Config): Promise<void>;
 }
 export type ConfigState =
   | { config: undefined; messages: string[] }

@@ -65,18 +65,18 @@ export class ConfigServiceImpl
     this.initConfig();
   }
 
-  async configFileUri(): Promise<string> {
+  async getCliConfigFileUri(): Promise<string> {
     const configDirUri = await this.envVariablesServer.getConfigDirUri();
     return new URI(configDirUri).resolve(CLI_CONFIG).toString();
   }
 
-  async config(): Promise<ConfigState> {
+  async getConfiguration(): Promise<ConfigState> {
     await this.ready.promise;
     return { ...this._configState };
   }
 
   // Used by frontend to update the config.
-  async updateConfig(config: Config): Promise<void> {
+  async setConfiguration(config: Config): Promise<void> {
     await this.ready.promise;
     if (Config.sameAs(this._configState.config, config)) {
       return;
@@ -175,7 +175,7 @@ export class ConfigServiceImpl
   private async loadCliConfig(
     initializeIfAbsent = true
   ): Promise<DefaultCliConfig> {
-    const cliConfigFileUri = await this.configFileUri();
+    const cliConfigFileUri = await this.getCliConfigFileUri();
     const cliConfigPath = FileUri.fsPath(cliConfigFileUri);
     try {
       const content = await fs.readFile(cliConfigPath, {
@@ -313,7 +313,7 @@ export class ConfigServiceImpl
   private async writeDaemonState(port: string | number): Promise<void> {
     const client = this.createClient(port);
     const req = new WriteRequest();
-    const cliConfigUri = await this.configFileUri();
+    const cliConfigUri = await this.getCliConfigFileUri();
     const cliConfigPath = FileUri.fsPath(cliConfigUri);
     req.setFilePath(cliConfigPath);
     return new Promise<void>((resolve, reject) => {

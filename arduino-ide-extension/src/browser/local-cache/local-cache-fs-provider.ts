@@ -88,7 +88,7 @@ export class LocalCacheFsProvider
   }
 
   protected async init(fileService: FileService): Promise<void> {
-    const { config, messages } = await this.configService.config();
+    const { config, messages } = await this.configService.getConfiguration();
     if (!config) {
       throw new Error(messages ? messages[0] : 'cli config was undefined');
     }

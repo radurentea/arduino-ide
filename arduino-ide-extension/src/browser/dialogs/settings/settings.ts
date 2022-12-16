@@ -169,7 +169,7 @@ export class SettingsService {
       this.preferenceService.get<boolean>(UPLOAD_VERBOSE_SETTING, true),
       this.preferenceService.get<boolean>(UPLOAD_VERIFY_SETTING, true),
       this.preferenceService.get<boolean>(SHOW_ALL_FILES_SETTING, false),
-      this.configService.config(),
+      this.configService.getConfiguration(),
     ]);
     const { config } = cliConfig;
     let additionalUrls: string[] = [];
@@ -283,7 +283,7 @@ export class SettingsService {
       sketchbookShowAllFiles,
     } = this._settings;
     const [cliConfig, sketchDirUri] = await Promise.all([
-      this.configService.config(),
+      this.configService.getConfiguration(),
       this.fileSystemExt.getUri(sketchbookPath),
     ]);
     const { config, messages = [] } = cliConfig;
@@ -308,7 +308,7 @@ export class SettingsService {
       this.savePreference(UPLOAD_VERBOSE_SETTING, verboseOnUpload),
       this.savePreference(UPLOAD_VERIFY_SETTING, verifyAfterUpload),
       this.savePreference(SHOW_ALL_FILES_SETTING, sketchbookShowAllFiles),
-      this.configService.updateConfig(config),
+      this.configService.setConfiguration(config),
     ]);
     this.onDidChangeEmitter.fire(this._settings);
 
