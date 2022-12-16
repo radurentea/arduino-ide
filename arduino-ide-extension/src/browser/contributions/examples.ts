@@ -29,6 +29,7 @@ import {
   CoreService,
 } from '../../common/protocol';
 import { nls } from '@theia/core/lib/common';
+import { unregisterSubmenu } from '../menu/arduino-menus';
 
 @injectable()
 export abstract class Examples extends SketchContribution {
@@ -120,6 +121,11 @@ export abstract class Examples extends SketchContribution {
         const { label } = sketchContainerOrPlaceholder;
         submenuPath = [...menuPath, label];
         this.menuRegistry.registerSubmenu(submenuPath, label, subMenuOptions);
+        this.toDispose.push(
+          Disposable.create(() =>
+            unregisterSubmenu(submenuPath, this.menuRegistry)
+          )
+        );
         sketches.push(...sketchContainerOrPlaceholder.sketches);
         children.push(...sketchContainerOrPlaceholder.children);
       } else {
