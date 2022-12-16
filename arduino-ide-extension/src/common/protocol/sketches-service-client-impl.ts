@@ -10,8 +10,8 @@ import {
   DisposableCollection,
 } from '@theia/core/lib/common/disposable';
 import { FrontendApplicationContribution } from '@theia/core/lib/browser/frontend-application';
-import { ConfigServiceClient } from '../../browser/config/config-service-client';
 import { Sketch, SketchesService } from '.';
+import { ConfigServiceClient } from '../../browser/config/config-service-client';
 import { SketchContainer, SketchesError, SketchRef } from './sketches-service';
 import {
   ARDUINO_CLOUD_FOLDER,
