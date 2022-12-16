@@ -23,7 +23,7 @@ import {
   SketchesService,
   SketchesServicePath,
 } from '../common/protocol/sketches-service';
-import { SketchesServiceClientImpl } from './sketches-service-client-impl';
+import { SketchesServiceClientImpl } from '../common/protocol/sketches-service-client-impl';
 import { CoreService, CoreServicePath } from '../common/protocol/core-service';
 import { BoardsListWidget } from './boards/boards-list-widget';
 import { BoardsListWidgetFrontendContribution } from './boards/boards-widget-frontend-contribution';

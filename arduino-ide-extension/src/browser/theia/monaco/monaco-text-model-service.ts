@@ -6,7 +6,7 @@ import { EditorPreferences } from '@theia/editor/lib/browser/editor-preferences'
 import { MonacoToProtocolConverter } from '@theia/monaco/lib/browser/monaco-to-protocol-converter';
 import { ProtocolToMonacoConverter } from '@theia/monaco/lib/browser/protocol-to-monaco-converter';
 import { MonacoTextModelService as TheiaMonacoTextModelService } from '@theia/monaco/lib/browser/monaco-text-model-service';
-import { SketchesServiceClientImpl } from '../../sketches-service-client-impl';
+import { SketchesServiceClientImpl } from '../../../common/protocol/sketches-service-client-impl';
 
 @injectable()
 export class MonacoTextModelService extends TheiaMonacoTextModelService {

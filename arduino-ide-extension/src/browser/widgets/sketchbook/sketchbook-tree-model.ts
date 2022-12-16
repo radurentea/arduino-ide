@@ -20,7 +20,7 @@ import { OpenerService, open } from '@theia/core/lib/browser';
 import {
   CurrentSketch,
   SketchesServiceClientImpl,
-} from '../../sketches-service-client-impl';
+} from '../../../common/protocol/sketches-service-client-impl';
 import { CommandRegistry } from '@theia/core/lib/common/command';
 import { WorkspaceService } from '@theia/workspace/lib/browser/workspace-service';
 import { FrontendApplicationStateService } from '@theia/core/lib/browser/frontend-application-state';

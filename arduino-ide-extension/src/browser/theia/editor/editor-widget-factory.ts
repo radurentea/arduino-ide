@@ -6,7 +6,7 @@ import { EditorWidgetFactory as TheiaEditorWidgetFactory } from '@theia/editor/l
 import {
   CurrentSketch,
   SketchesServiceClientImpl,
-} from '../../sketches-service-client-impl';
+} from '../../../common/protocol/sketches-service-client-impl';
 import { SketchesService, Sketch } from '../../../common/protocol';
 import { nls } from '@theia/core/lib/common';
 

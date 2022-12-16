@@ -40,7 +40,7 @@ import { SettingsService } from '../dialogs/settings/settings';
 import {
   CurrentSketch,
   SketchesServiceClientImpl,
-} from '../sketches-service-client-impl';
+} from '../../common/protocol/sketches-service-client-impl';
 import {
   SketchesService,
   FileSystemExt,

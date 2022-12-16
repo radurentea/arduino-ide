@@ -10,7 +10,7 @@ import {
   MenuModelRegistry,
 } from './contribution';
 import { nls } from '@theia/core/lib/common';
-import { CurrentSketch } from '../sketches-service-client-impl';
+import { CurrentSketch } from '../../common/protocol/sketches-service-client-impl';
 
 @injectable()
 export class ArchiveSketch extends SketchContribution {

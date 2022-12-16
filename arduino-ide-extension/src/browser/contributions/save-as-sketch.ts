@@ -11,9 +11,13 @@ import {
   KeybindingRegistry,
 } from './contribution';
 import { nls } from '@theia/core/lib/common';
-import { ApplicationShell, NavigatableWidget, Saveable } from '@theia/core/lib/browser';
+import {
+  ApplicationShell,
+  NavigatableWidget,
+  Saveable,
+} from '@theia/core/lib/browser';
 import { WindowService } from '@theia/core/lib/browser/window/window-service';
-import { CurrentSketch } from '../sketches-service-client-impl';
+import { CurrentSketch } from '../../common/protocol/sketches-service-client-impl';
 import { WorkspaceInput } from '@theia/workspace/lib/browser';
 import { StartupTask } from '../../electron-common/startup-task';
 import { DeleteSketch } from './delete-sketch';
@@ -115,7 +119,11 @@ export class SaveAsSketch extends SketchContribution {
       destinationUri,
     });
     if (workspaceUri) {
-      await this.saveOntoCopiedSketch(sketch.mainFileUri, sketch.uri, workspaceUri);
+      await this.saveOntoCopiedSketch(
+        sketch.mainFileUri,
+        sketch.uri,
+        workspaceUri
+      );
       if (markAsRecentlyOpened) {
         this.sketchService.markAsRecentlyOpened(workspaceUri);
       }
@@ -137,7 +145,11 @@ export class SaveAsSketch extends SketchContribution {
     return !!workspaceUri;
   }
 
-  private async saveOntoCopiedSketch(mainFileUri: string, sketchUri: string, newSketchUri: string): Promise<void> {
+  private async saveOntoCopiedSketch(
+    mainFileUri: string,
+    sketchUri: string,
+    newSketchUri: string
+  ): Promise<void> {
     const widgets = this.applicationShell.widgets;
     const snapshots = new Map<string, object>();
     for (const widget of widgets) {
@@ -145,7 +157,12 @@ export class SaveAsSketch extends SketchContribution {
       const uri = NavigatableWidget.getUri(widget);
       const uriString = uri?.toString();
       let relativePath: string;
-      if (uri && uriString!.includes(sketchUri) && saveable && saveable.createSnapshot) {
+      if (
+        uri &&
+        uriString!.includes(sketchUri) &&
+        saveable &&
+        saveable.createSnapshot
+      ) {
         // The main file will change its name during the copy process
         // We need to store the new name in the map
         if (mainFileUri === uriString) {
@@ -157,19 +174,21 @@ export class SaveAsSketch extends SketchContribution {
         snapshots.set(relativePath, saveable.createSnapshot());
       }
     }
-    await Promise.all(Array.from(snapshots.entries()).map(async ([path, snapshot]) => {
-      const widgetUri = new URI(newSketchUri + path);
-      try {
-        const widget = await this.editorManager.getOrCreateByUri(widgetUri);
-        const saveable = Saveable.get(widget);
-        if (saveable && saveable.applySnapshot) {
-          saveable.applySnapshot(snapshot);
-          await saveable.save();
+    await Promise.all(
+      Array.from(snapshots.entries()).map(async ([path, snapshot]) => {
+        const widgetUri = new URI(newSketchUri + path);
+        try {
+          const widget = await this.editorManager.getOrCreateByUri(widgetUri);
+          const saveable = Saveable.get(widget);
+          if (saveable && saveable.applySnapshot) {
+            saveable.applySnapshot(snapshot);
+            await saveable.save();
+          }
+        } catch (e) {
+          console.error(e);
         }
-      } catch (e) {
-        console.error(e);
-      }
-    }));
+      })
+    );
   }
 }
 

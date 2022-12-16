@@ -10,7 +10,7 @@ import { OutputWidget } from '@theia/output/lib/browser/output-widget';
 import {
   CurrentSketch,
   SketchesServiceClientImpl,
-} from '../../sketches-service-client-impl';
+} from '../../../common/protocol/sketches-service-client-impl';
 
 @injectable()
 export class WidgetManager extends TheiaWidgetManager {
