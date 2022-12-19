@@ -27,6 +27,7 @@ import {
 import { ElectronCommands } from '@theia/core/lib/electron-browser/menu/electron-menu-contribution';
 import { DefaultTheme } from '@theia/application-package/lib/application-props';
 import { FrontendApplicationConfigProvider } from '@theia/core/lib/browser/frontend-application-config-provider';
+import type { FileStat } from '@theia/filesystem/lib/common/files';
 
 export const WINDOW_SETTING = 'window';
 export const EDITOR_SETTING = 'editor';
@@ -231,7 +232,11 @@ export class SettingsService {
     try {
       const { sketchbookPath, editorFontSize, themeId } = await settings;
       const sketchbookDir = await this.fileSystemExt.getUri(sketchbookPath);
-      if (!(await this.fileService.exists(new URI(sketchbookDir)))) {
+      let sketchbookStat: FileStat | undefined = undefined;
+      try {
+        sketchbookStat = await this.fileService.resolve(new URI(sketchbookDir));
+      } catch {}
+      if (!sketchbookStat || !sketchbookStat.isDirectory) {
         return nls.localize(
           'arduino/preferences/invalid.sketchbook.location',
           'Invalid sketchbook location: {0}',

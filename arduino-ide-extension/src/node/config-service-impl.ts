@@ -1,4 +1,4 @@
-import { promises as fs, constants } from 'fs';
+import { promises as fs } from 'fs';
 import { dirname } from 'path';
 import * as yaml from 'js-yaml';
 import * as grpc from '@grpc/grpc-js';
@@ -259,25 +259,23 @@ export class ConfigServiceImpl
   private async checkAccessible({
     directories,
   }: DefaultCliConfig): Promise<string[]> {
-    const accessible = (folderPath: string) =>
-      fs.access(folderPath, constants.R_OK | constants.W_OK);
-    const toConfigErrors = (
-      folderPath: string,
-      result: PromiseSettledResult<unknown>
-    ) =>
-      result.status === 'rejected'
-        ? [
-            nls.localize(
-              'arduino/configuration/cli/inaccessibleDirectory',
-              "Could not access the sketchbook location at '{0}': {1}",
-              folderPath,
-              String(result.reason)
-            ),
-          ]
-        : [];
-    const { user } = directories;
-    const [userAccessible] = await Promise.allSettled([accessible(user)]); // XXX: validate `directory.data` if required
-    return [...toConfigErrors(user, userAccessible)];
+    try {
+      await fs.readdir(directories.user);
+      return [];
+    } catch (err) {
+      console.error(
+        `Check accessible failed for input: ${directories.user}`,
+        err
+      );
+      return [
+        nls.localize(
+          'arduino/configuration/cli/inaccessibleDirectory',
+          "Could not access the sketchbook location at '{0}': {1}",
+          directories.user,
+          String(err)
+        ),
+      ];
+    }
   }
 
   private async updateDaemon(
