@@ -29,7 +29,7 @@ export class DecodeOutput extends React.Component<
       elements: [],
     };
   }
-
+  
   // If a string of <digit>.<digit>.<digit> or <digit>.<digit> is found, replaces it with "*"
   changeVersionToAny = (path: string) => {
     const regex = new RegExp(/(\d\.\d\.\d)|(\d\.\d)/g);
